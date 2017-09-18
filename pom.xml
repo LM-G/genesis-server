@@ -9,7 +9,7 @@
 	<packaging>war</packaging>
 
 	<name>genesis-server</name>
-	<description>Genesis Backend</description>
+	<description>Genesis backend</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
