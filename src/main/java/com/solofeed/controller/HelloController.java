@@ -1,11 +1,11 @@
 package com.solofeed.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
 
-@RestController
+@Path("hello")
 public class HelloController {
-    @RequestMapping("/hello")
+    @GET
     public String hello() {
         return "Greetings !!";
     }
