@@ -3,21 +3,21 @@ package com.solofeed.controller;
 import com.github.fge.jsonpatch.JsonPatchException;
 import com.solofeed.config.JsonPatcher;
 import com.solofeed.dto.UserDto;
-import com.solofeed.exception.UnprocessableEntityException;
 import com.solofeed.mapper.UserMapper;
 import com.solofeed.model.User;
 import com.solofeed.service.IUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.validation.BeanPropertyBindingResult;
-import org.springframework.validation.Validator;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import javax.inject.Inject;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import javax.validation.Validator;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Path("users")
 public class UserController {
@@ -63,10 +63,9 @@ public class UserController {
         }
 
         if(patchUserDto.isPresent()){
-            BeanPropertyBindingResult errors = new BeanPropertyBindingResult(patchUserDto.get(), "patchUserDto");
-            validator.validate(patchUserDto.get(), errors);
-            if(errors.hasErrors()){
-                throw new UnprocessableEntityException();
+            Set<ConstraintViolation<UserDto>> violations =  validator.validate(patchUserDto.get());
+            if(!violations.isEmpty()){
+                throw new ConstraintViolationException(violations);
             }
         } else {
             throw new BadRequestException("Rien à patcher");

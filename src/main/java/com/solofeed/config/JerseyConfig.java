@@ -18,6 +18,6 @@ public class JerseyConfig extends ResourceConfig{
     @Inject
     public JerseyConfig() {
         // register endpoints
-        packages("com.solofeed.controller");
+        packages("com.solofeed");
     }
 }
