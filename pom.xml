@@ -107,6 +107,11 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.6</version>
         </dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>0.6.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -117,6 +122,5 @@
 			</plugin>
 		</plugins>
 	</build>
-
 
 </project>

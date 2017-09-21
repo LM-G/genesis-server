@@ -1,14 +1,18 @@
 package com.solofeed.service;
 
 import com.solofeed.dto.UserDto;
+import com.solofeed.dto.form.CreateUserDto;
 import com.solofeed.model.User;
 
+import javax.ws.rs.NotFoundException;
 import java.util.List;
 
 public interface IUserService {
-    List<User> getUsers();
+    List<UserDto> getUsers();
 
-    User getUser(Long id);
+    UserDto getUser(Long id) throws NotFoundException;
 
-    User updateUser(UserDto userDto);
+    UserDto updateUser(UserDto userDto);
+
+    void createUser(CreateUserDto form);
 }

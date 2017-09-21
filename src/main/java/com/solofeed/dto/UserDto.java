@@ -1,34 +1,11 @@
 package com.solofeed.dto;
 
-import org.hibernate.validator.constraints.NotBlank;
+import com.solofeed.constant.UserRoleEnum;
 
 public class UserDto {
     Long id;
-    @NotBlank
-    String name;
+    String username;
     String email;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    UserRoleEnum role;
+    String password;
 }

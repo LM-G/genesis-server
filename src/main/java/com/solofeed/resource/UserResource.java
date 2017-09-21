@@ -1,13 +1,16 @@
-package com.solofeed.controller;
+package com.solofeed.resource;
 
 import com.github.fge.jsonpatch.JsonPatchException;
 import com.solofeed.config.JsonPatcher;
 import com.solofeed.dto.UserDto;
+import com.solofeed.dto.form.CreateUserDto;
 import com.solofeed.mapper.UserMapper;
 import com.solofeed.model.User;
 import com.solofeed.service.IUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
 import javax.validation.ConstraintViolation;
@@ -19,12 +22,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-@Path("users")
-public class UserController {
-    private final static Logger LOGGER = LoggerFactory.getLogger(UserController.class);
+@Path("/users")
+@Produces(MediaType.APPLICATION_JSON)
+public class UserResource {
+    /** User endpoint logger */
+    private final static Logger LOGGER = LoggerFactory.getLogger(UserResource.class);
+
     @Inject
     private IUserService userService;
-
     @Inject
     private UserMapper userMapper;
     @Inject
@@ -32,27 +37,23 @@ public class UserController {
     @Inject
     private Validator validator;
 
-    private static final String USER_NOT_FOUND = "User not found";
-
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<User> getUsers(){
+    public List<UserDto> getUsers(){
         return userService.getUsers();
     }
+
+    @POST
+    public void registerUser(CreateUserDto form){
+        userService.createUser(form);
+    }
+
 
     @PATCH
     @Path("{id}")
     @Consumes(MediaType.APPLICATION_JSON_PATCH_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public UserDto updateUser(@PathParam("id") Long id, String operations) {
+    public UserDto updateUser(@PathParam("id") Long id, String operations) throws NotFoundException{
+        UserDto userDto = userService.getUser(id);
 
-        User user = userService.getUser(id);
-        if(user == null){
-            throw new NotFoundException(USER_NOT_FOUND);
-        }
-
-        // user to dto
-        UserDto userDto = userMapper.toDto(user);
         Optional<UserDto> patchUserDto = Optional.empty();
         try {
             patchUserDto = jsonPatcher.patch(operations, userDto);
@@ -71,6 +72,6 @@ public class UserController {
             throw new BadRequestException("Rien à patcher");
         }
 
-        return userMapper.toDto(userService.updateUser(patchUserDto.get()));
+        return userService.updateUser(patchUserDto.get());
     }
 }

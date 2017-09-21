@@ -2,12 +2,14 @@ package com.solofeed.service.impl;
 
 import com.solofeed.dao.UserRepository;
 import com.solofeed.dto.UserDto;
+import com.solofeed.dto.form.CreateUserDto;
 import com.solofeed.mapper.UserMapper;
 import com.solofeed.model.User;
 import com.solofeed.service.IUserService;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import javax.ws.rs.NotFoundException;
 import java.util.List;
 
 @Service
@@ -19,18 +21,27 @@ public class UserService implements IUserService{
     private UserMapper userMapper;
 
     @Override
-    public List<User> getUsers() {
-        return userRepository.findAll();
+    public List<UserDto> getUsers() {
+        return userMapper.toDto(userRepository.findAll());
     }
 
     @Override
-    public User getUser(Long id) {
-        return userRepository.findOne(id);
+    public UserDto getUser(Long id) throws NotFoundException{
+        User user = userRepository.findOne(id);
+        if(user == null){
+            throw new NotFoundException("user not found");
+        }
+        return userMapper.toDto(user);
     }
 
     @Override
-    public User updateUser(UserDto userDto) {
+    public void createUser(CreateUserDto form) {
+
+    }
+
+    @Override
+    public UserDto updateUser(UserDto userDto) {
         User user = userMapper.fromDto(userDto);
-        return userRepository.save(user);
+        return userMapper.toDto(userRepository.save(user));
     }
 }
