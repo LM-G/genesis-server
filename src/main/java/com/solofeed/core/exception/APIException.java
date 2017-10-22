@@ -7,13 +7,13 @@ import org.springframework.http.HttpStatus;
 public abstract class APIException extends Exception{
     protected APIExceptionNature nature;
     protected HttpStatus status;
+    protected String code;
 
-    protected APIException(APIExceptionNature nature, String message, Throwable cause){
+    protected APIException(String message, Throwable cause){
         super(message, cause);
-        this.nature = nature;
     }
 
-    public static enum APIExceptionNature {
+    public enum APIExceptionNature {
         FUNCTIONAL,
         TECHNICAL
     }

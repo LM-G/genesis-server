@@ -2,24 +2,24 @@ package com.solofeed.core.handler;
 
 
 import lombok.extern.log4j.Log4j2;
-import org.springframework.http.ResponseEntity;
 
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Log4j2
 public abstract class AbstractExceptionMapper {
 
-    protected Response toErrorResponse(int status, Object detail) {
-        return create(status, detail);
+    protected Response toErrorResponse(int status, ErrorBody body) {
+        return create(status, body);
     }
 
-    protected Response toErrorResponse(int status, Object detail, Throwable t) {
-        LOGGER.trace(detail, t);
+    protected Response toErrorResponse(int status, ErrorBody body, Throwable t) {
+        LOGGER.trace(t);
 
-        return create(status, detail);
+        return create(status, body);
     }
 
-    private Response create(int status, Object detail) {
-        return Response.status(status).entity(detail).build();
+    private Response create(int status, ErrorBody body) {
+        return Response.status(status).entity(body).header("content-type", MediaType.APPLICATION_JSON).build();
     }
 }

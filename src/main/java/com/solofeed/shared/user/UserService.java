@@ -1,8 +1,10 @@
 package com.solofeed.shared.user;
 
+import com.solofeed.core.exception.APIException;
+import com.solofeed.shared.auth.exception.AuthException;
 import com.solofeed.shared.user.dao.UserRepository;
-import com.solofeed.shared.user.dto.UserDto;
 import com.solofeed.shared.user.dto.CreateUserDto;
+import com.solofeed.shared.user.dto.UserDto;
 import com.solofeed.shared.user.mapper.UserMapper;
 import com.solofeed.shared.user.model.User;
 import org.apache.commons.lang3.StringUtils;
@@ -42,11 +44,11 @@ public class UserService implements IUserService{
     }
 
     @Override
-    public UserDto getUser(String login, String password) throws NotFoundException {
+    public UserDto getUser(String login, String password) throws APIException {
         String hashedPassword = passwordEncoder.encode(password);
         User user = userRepository.findByPasswordAndNameOrEmail(hashedPassword, login, login);
         if(user == null){
-            throw new NotFoundException("User not found, wrong credentials");
+            throw AuthException.ofWrongCredentials();
         }
         UserDto result = userMapper.toDto(user);
         // TODO JWT

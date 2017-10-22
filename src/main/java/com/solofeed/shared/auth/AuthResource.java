@@ -1,8 +1,9 @@
-package com.solofeed.core.auth;
+package com.solofeed.shared.auth;
 
+import com.solofeed.core.exception.APIException;
 import com.solofeed.shared.user.dto.UserDto;
 import com.solofeed.shared.user.dto.CreateUserDto;
-import com.solofeed.core.auth.dto.SignInDto;
+import com.solofeed.shared.auth.dto.SignInDto;
 import com.solofeed.shared.user.IUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +36,7 @@ public class AuthResource {
 
     @POST
     @Path("/sign-in")
-    public void login(@Valid SignInDto form){
+    public void login(@Valid SignInDto form) throws APIException {
         UserDto user = userService.getUser(form.getLogin(), form.getPassword());
     }
 
