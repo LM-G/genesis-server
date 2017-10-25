@@ -1,6 +1,7 @@
 package com.solofeed.core.handler;
 
 import com.solofeed.core.exception.APIException;
+import com.solofeed.core.exception.FunctionalException;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.ws.rs.core.Response;
@@ -14,15 +15,13 @@ public class APIExceptionMapper extends AbstractExceptionMapper implements
 
     @Override
     public Response toResponse(APIException e) {
-        ErrorBody.ErrorBodyBuilder bodyBuilder = ErrorBody.builder()
-                .code(e.getCode())
-                .message(e.getMessage())
-                .timestamp(System.currentTimeMillis());
+        ErrorResponseContent.Builder errorContentBuilder = ErrorResponseContent.builder();
 
-        if(e.getStackTrace() != null && e.getStackTrace().length > 0) {
-            bodyBuilder.stackTrace(StringUtils.join(e.getStackTrace(), '\n'));
+        if(FunctionalException.class.isAssignableFrom(e.getClass())) {
+            FunctionalException fe = FunctionalException.class.cast(e);
+            errorContentBuilder.code(fe.getCode()).message(fe.getMessage()).detail(fe.getDetail());
         }
 
-        return this.toErrorResponse(e.getStatus().value(), bodyBuilder.build(), e);
+        return this.toErrorResponse(e.getStatus(), errorContentBuilder.build(), e);
     }
 }

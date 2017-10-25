@@ -5,6 +5,7 @@ import com.solofeed.shared.auth.exception.AuthException;
 import com.solofeed.shared.user.dao.UserRepository;
 import com.solofeed.shared.user.dto.CreateUserDto;
 import com.solofeed.shared.user.dto.UserDto;
+import com.solofeed.shared.user.exception.UserException;
 import com.solofeed.shared.user.mapper.UserMapper;
 import com.solofeed.shared.user.model.User;
 import org.apache.commons.lang3.StringUtils;
@@ -13,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-import javax.ws.rs.BadRequestException;
 import javax.ws.rs.NotFoundException;
 import java.util.List;
 
@@ -57,7 +57,7 @@ public class UserService implements IUserService{
 
     @Override
     @Transactional
-    public void createUser(CreateUserDto form) throws BadRequestException{
+    public void createUser(CreateUserDto form) throws APIException{
         User user = userRepository.findByNameOrEmail(form.getName(), form.getEmail());
 
         // detail the error
@@ -73,7 +73,7 @@ public class UserService implements IUserService{
                 sb.append("username");
             }
             sb.append(" not available");
-            throw new BadRequestException(sb.toString());
+            throw UserException.ofRegistrationFailed();
         }
 
         user = userMapper.fromCreateDto(form);

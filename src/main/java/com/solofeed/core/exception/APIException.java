@@ -7,7 +7,10 @@ import org.springframework.http.HttpStatus;
 public abstract class APIException extends Exception{
     protected APIExceptionNature nature;
     protected HttpStatus status;
-    protected String code;
+
+    protected APIException(String message){
+        super(message);
+    }
 
     protected APIException(String message, Throwable cause){
         super(message, cause);

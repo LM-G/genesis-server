@@ -1,16 +1,18 @@
 package com.solofeed.core.exception;
 
+import lombok.Data;
 import org.springframework.http.HttpStatus;
 
-
+@Data
 public class FunctionalException extends APIException{
-    private FunctionalException(HttpStatus status, String code, String message, Throwable cause) {
-        super(message, cause);
+    private String code;
+    private Object detail;
+
+    public FunctionalException(HttpStatus status, String code, String message, Object detail) {
+        super(message);
+        this.nature = APIExceptionNature.FUNCTIONAL;
         this.status = status;
         this.code = code;
-    }
-
-    public static FunctionalException with(HttpStatus status, String code, String message, Throwable cause) {
-        return new FunctionalException(status, code, message, cause);
+        this.detail = detail;
     }
 }

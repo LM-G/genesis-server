@@ -17,5 +17,5 @@ public interface IUserService {
 
     UserDto updateUser(UserDto userDto);
 
-    void createUser(CreateUserDto form) throws BadRequestException;
+    void createUser(CreateUserDto form) throws APIException;
 }

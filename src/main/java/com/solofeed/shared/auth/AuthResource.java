@@ -42,7 +42,7 @@ public class AuthResource {
 
     @POST
     @Path("/sign-up")
-    public void register(@Valid CreateUserDto form){
+    public void register(@Valid CreateUserDto form) throws APIException{
         userService.createUser(form);
     }
 

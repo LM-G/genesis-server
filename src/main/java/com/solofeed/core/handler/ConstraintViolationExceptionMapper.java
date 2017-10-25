@@ -19,7 +19,7 @@ public class ConstraintViolationExceptionMapper extends AbstractExceptionMapper 
     @Override
     public Response toResponse(ConstraintViolationException e) {
         Map<String, String> detail = new HashMap();
-        ErrorBody body = ErrorBody.builder()
+        ErrorResponseContent body = ErrorResponseContent.builder()
                 .code("E_FORM_VALIDATION")
                 .timestamp(System.currentTimeMillis())
                 .message("Form validation failed")

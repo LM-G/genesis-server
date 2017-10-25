@@ -6,8 +6,6 @@ import org.springframework.http.HttpStatus;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
-import java.lang.reflect.Array;
-import java.util.Arrays;
 
 /**
  * Default handler
@@ -16,7 +14,7 @@ import java.util.Arrays;
 public class DefaultExceptionMapper extends AbstractExceptionMapper implements ExceptionMapper<Exception> {
     @Override
     public Response toResponse(Exception e) {
-        ErrorBody body = ErrorBody.builder()
+        ErrorResponseContent body = ErrorResponseContent.builder()
                 .code("E_UNKNOWN")
                 .message("Unknown error")
                 .timestamp(System.currentTimeMillis())
