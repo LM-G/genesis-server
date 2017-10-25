@@ -1,7 +1,7 @@
 package com.solofeed.shared.user;
 
 import com.solofeed.core.exception.APIException;
-import com.solofeed.shared.auth.exception.AuthException;
+import com.solofeed.core.auth.exception.AuthException;
 import com.solofeed.shared.user.dao.UserRepository;
 import com.solofeed.shared.user.dto.CreateUserDto;
 import com.solofeed.shared.user.dto.UserDto;
@@ -45,14 +45,19 @@ public class UserService implements IUserService{
 
     @Override
     public UserDto getUser(String login, String password) throws APIException {
-        String hashedPassword = passwordEncoder.encode(password);
-        User user = userRepository.findByPasswordAndNameOrEmail(hashedPassword, login, login);
+        // finds the user by name or email
+        User user = userRepository.findByNameOrEmail(login, login);
+
         if(user == null){
+            throw UserException.ofNotFound("user not found");
+        }
+
+        // checks the password,
+        if(!passwordEncoder.matches(password, user.getPassword())){
             throw AuthException.ofWrongCredentials();
         }
-        UserDto result = userMapper.toDto(user);
-        // TODO JWT
-        return result; // temp
+
+        return userMapper.toDto(user);
     }
 
     @Override
@@ -62,18 +67,9 @@ public class UserService implements IUserService{
 
         // detail the error
         if(user != null){
-            StringBuilder sb = new StringBuilder();
-            if(StringUtils.equals(form.getEmail(), user.getEmail())){
-                sb.append("email");
-            }
-            if(StringUtils.equals(form.getName(), user.getName())){
-                if(sb.length() > 0) {
-                    sb.append(" and ");
-                }
-                sb.append("username");
-            }
-            sb.append(" not available");
-            throw UserException.ofRegistrationFailed();
+            boolean nameAvailable = !StringUtils.equals(form.getName(), user.getName());
+            boolean emailAvailable = !StringUtils.equals(form.getEmail(), user.getEmail());
+            throw UserException.ofRegistrationFailed(nameAvailable, emailAvailable);
         }
 
         user = userMapper.fromCreateDto(form);

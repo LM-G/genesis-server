@@ -15,12 +15,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  */
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/"+ ApplicationConfig.APPLICATION_PATH + "/auth/**").permitAll()
-                .anyRequest().authenticated();
+        http.csrf().ignoringAntMatchers("/auth/**");
+        http.authorizeRequests()
+                .antMatchers(HttpMethod.POST, "/"+ ApplicationConfig.APPLICATION_PATH + "/auth/**")
+                .permitAll()
+                .anyRequest()
+                .denyAll();
     }
 
     @Override

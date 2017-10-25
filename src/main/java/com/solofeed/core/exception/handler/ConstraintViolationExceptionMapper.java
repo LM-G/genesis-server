@@ -1,4 +1,4 @@
-package com.solofeed.core.handler;
+package com.solofeed.core.exception.handler;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.internal.engine.path.PathImpl;
@@ -19,19 +19,16 @@ public class ConstraintViolationExceptionMapper extends AbstractExceptionMapper 
     @Override
     public Response toResponse(ConstraintViolationException e) {
         Map<String, String> detail = new HashMap();
-        ErrorResponseContent body = ErrorResponseContent.builder()
-                .code("E_FORM_VALIDATION")
-                .timestamp(System.currentTimeMillis())
-                .message("Form validation failed")
-                .detail(detail)
-                .stackTrace(StringUtils.join(e.getStackTrace(), '\n'))
-                .build();
 
+        ErrorPayload payload = new ErrorPayload();
+        payload.setMessage("Form validation failed");
+        payload.setCode("E_FORM_VALIDATION");
+        payload.setDetail(detail);
 
         for (final ConstraintViolation<?> error : e.getConstraintViolations()) {
             detail.put(((PathImpl) error.getPropertyPath()).getLeafNode().getName(), error.getMessage());
         }
 
-        return this.toErrorResponse(HttpStatus.UNPROCESSABLE_ENTITY.value(), body);
+        return this.toErrorResponse(HttpStatus.UNPROCESSABLE_ENTITY, payload);
     }
 }

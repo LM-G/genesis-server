@@ -1,4 +1,4 @@
-package com.solofeed.shared.auth.exception;
+package com.solofeed.core.auth.exception;
 
 import com.solofeed.core.exception.APIException;
 import com.solofeed.core.exception.FunctionalException;
@@ -11,7 +11,6 @@ public class AuthException {
     private static final String WRONG_CREDENTIALS = "E_WRONG_CREDENTIALS";
 
     public static APIException ofWrongCredentials(){
-        return new FunctionalException(HttpStatus.UNPROCESSABLE_ENTITY,WRONG_CREDENTIALS,
-                "Authentication failed, wrong credentials", null);
+        return new FunctionalException(HttpStatus.UNAUTHORIZED,WRONG_CREDENTIALS, "Authentication failed, wrong credentials");
     }
 }
