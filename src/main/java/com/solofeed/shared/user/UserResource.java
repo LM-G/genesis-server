@@ -2,18 +2,15 @@ package com.solofeed.shared.user;
 
 import com.github.fge.jsonpatch.JsonPatchException;
 import com.solofeed.core.config.JsonPatcher;
-import com.solofeed.shared.user.dto.CreateUserDto;
 import com.solofeed.shared.user.dto.UserDto;
 import com.solofeed.shared.user.mapper.UserMapper;
+import com.solofeed.shared.user.service.IUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.inject.Inject;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-import javax.validation.Valid;
 import javax.validation.Validator;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

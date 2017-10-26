@@ -1,4 +1,4 @@
-package com.solofeed.shared.user;
+package com.solofeed.shared.user.service;
 
 import com.solofeed.core.exception.APIException;
 import com.solofeed.shared.user.dto.CreateUserDto;

@@ -4,10 +4,8 @@ import com.solofeed.shared.user.constant.UserRoleEnum;
 import lombok.Data;
 
 @Data
-public class UserDto {
+public class BasicUserDto {
     Long id;
     String name;
-    String email;
     UserRoleEnum role;
-    String password;
 }

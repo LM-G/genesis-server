@@ -1,8 +1,6 @@
 package com.solofeed.core.exception.handler;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
-import org.springframework.util.CollectionUtils;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;

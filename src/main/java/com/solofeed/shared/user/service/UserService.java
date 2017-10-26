@@ -1,4 +1,4 @@
-package com.solofeed.shared.user;
+package com.solofeed.shared.user.service;
 
 import com.solofeed.core.exception.APIException;
 import com.solofeed.core.auth.exception.AuthException;
@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import javax.ws.rs.NotFoundException;
+import javax.ws.rs.core.Context;
 import java.util.List;
 
 @Service

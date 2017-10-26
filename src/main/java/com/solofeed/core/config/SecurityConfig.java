@@ -18,7 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().ignoringAntMatchers("/auth/**");
+        http.csrf().disable();//ignoringAntMatchers("/auth/**");
         http.authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/"+ ApplicationConfig.APPLICATION_PATH + "/auth/**")
                 .permitAll()
