@@ -1,4 +1,4 @@
-package com.solofeed.genesis.core.auth.dto;
+package com.solofeed.genesis.core.security.auth.dto;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;

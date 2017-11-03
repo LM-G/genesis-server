@@ -1,32 +1,32 @@
-package com.solofeed.genesis.core.config.security;
+package com.solofeed.genesis.core.security.auth.model;
 
 import com.solofeed.genesis.shared.user.model.User;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
- * Handles the current user
+ * User representation stored in the JWT
  */
 @Data
-public class UserDetailsImpl implements UserDetails {
-    private transient User user;
-
-    public UserDetailsImpl(User user) {
-        this.user = user;
-    }
+public class JwtUser implements UserDetails {
+    /** user to authenticate */
+    private User user;
+    /** user authorities */
+    private List<? extends GrantedAuthority> authorities;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return new ArrayList();
+        return authorities;
     }
 
     @Override
     public String getPassword() {
-        return null;
+        return user.getPassword();
     }
 
     @Override

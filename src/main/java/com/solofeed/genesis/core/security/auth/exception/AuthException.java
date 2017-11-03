@@ -1,4 +1,4 @@
-package com.solofeed.genesis.core.auth.exception;
+package com.solofeed.genesis.core.security.auth.exception;
 
 import com.solofeed.genesis.core.exception.APIException;
 import com.solofeed.genesis.core.exception.FunctionalException;
@@ -16,7 +16,7 @@ public class AuthException {
         return new FunctionalException(HttpStatus.UNAUTHORIZED,WRONG_CREDENTIALS, "Authentication failed, wrong credentials");
     }
 
-    public static APIException ofTokenCreationFailed(Throwable cause){
+    public static TechnicalException ofTokenCreationFailed(Throwable cause){
         return new TechnicalException(TOKEN_CREATION, "Token creation failed", cause);
     }
 }

@@ -1,7 +1,7 @@
 package com.solofeed.genesis.shared.user;
 
 import com.github.fge.jsonpatch.JsonPatchException;
-import com.solofeed.genesis.core.config.JsonPatcher;
+import com.solofeed.genesis.util.JsonPatcher;
 import com.solofeed.genesis.core.exception.APIException;
 import com.solofeed.genesis.shared.user.dto.UserDto;
 import com.solofeed.genesis.shared.user.service.IUserService;

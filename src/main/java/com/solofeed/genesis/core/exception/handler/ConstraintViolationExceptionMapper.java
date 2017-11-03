@@ -1,5 +1,6 @@
 package com.solofeed.genesis.core.exception.handler;
 
+import com.solofeed.genesis.core.exception.dto.ErrorPayload;
 import org.hibernate.validator.internal.engine.path.PathImpl;
 import org.springframework.http.HttpStatus;
 

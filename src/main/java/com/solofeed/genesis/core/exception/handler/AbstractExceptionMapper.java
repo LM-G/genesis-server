@@ -1,6 +1,7 @@
 package com.solofeed.genesis.core.exception.handler;
 
 
+import com.solofeed.genesis.core.exception.dto.ErrorPayload;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 

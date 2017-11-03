@@ -1,7 +1,7 @@
 package com.solofeed.genesis.shared.user.service;
 
 import com.solofeed.genesis.core.exception.APIException;
-import com.solofeed.genesis.core.auth.exception.AuthException;
+import com.solofeed.genesis.core.security.auth.exception.AuthException;
 import com.solofeed.genesis.shared.user.dao.UserRepository;
 import com.solofeed.genesis.shared.user.dto.CreateUserDto;
 import com.solofeed.genesis.shared.user.dto.UserDto;

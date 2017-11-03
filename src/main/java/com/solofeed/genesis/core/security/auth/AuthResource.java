@@ -1,11 +1,11 @@
-package com.solofeed.genesis.core.auth;
+package com.solofeed.genesis.core.security.auth;
 
-import com.solofeed.genesis.core.auth.dto.TokenDto;
-import com.solofeed.genesis.core.auth.service.CypherService;
+import com.solofeed.genesis.core.security.auth.dto.TokenDto;
+import com.solofeed.genesis.core.security.auth.service.CypherService;
 import com.solofeed.genesis.core.exception.APIException;
 import com.solofeed.genesis.shared.user.dto.UserDto;
 import com.solofeed.genesis.shared.user.dto.CreateUserDto;
-import com.solofeed.genesis.core.auth.dto.SignInDto;
+import com.solofeed.genesis.core.security.auth.dto.SignInDto;
 import com.solofeed.genesis.shared.user.service.IUserService;
 import lombok.extern.log4j.Log4j2;
 
@@ -14,8 +14,6 @@ import javax.validation.Valid;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 import java.util.List;
 
 /**
@@ -23,7 +21,6 @@ import java.util.List;
  */
 @Log4j2
 @Path("/auth")
-@Produces(MediaType.APPLICATION_JSON)
 public class AuthResource {
 
     @Inject
@@ -43,7 +40,7 @@ public class AuthResource {
         UserDto user = userService.getUser(form.getLogin(), form.getPassword());
 
         // generate JWT token
-        String token = cypherService.createToken(user);
+        String token = cypherService.generateToken(user);
 
         return new TokenDto(token);
     }

@@ -4,19 +4,19 @@ import lombok.Data;
 import org.springframework.http.HttpStatus;
 
 @Data
-public abstract class APIException extends Exception implements IAPIException{
+public abstract class APIRuntimeException extends RuntimeException implements IAPIException{
     protected HttpStatus status;
 
-    protected APIException(String message){
+    protected APIRuntimeException(String message){
         super(message);
     }
 
-    protected APIException(String message, Throwable cause){
+    protected APIRuntimeException(String message, Throwable cause){
         super(message, cause);
     }
 
     @Override
     public APIExceptionNature getNature() {
-        return APIExceptionNature.FUNCTIONAL;
+        return APIExceptionNature.TECHNICAL;
     }
 }

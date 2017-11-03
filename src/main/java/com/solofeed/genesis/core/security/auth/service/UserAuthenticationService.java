@@ -1,5 +1,6 @@
-package com.solofeed.genesis.core.config.security;
+package com.solofeed.genesis.core.security.auth.service;
 
+import com.solofeed.genesis.core.security.auth.model.JwtUser;
 import com.solofeed.genesis.shared.user.dao.UserRepository;
 import com.solofeed.genesis.shared.user.model.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,12 +9,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 
 /**
  * Security service to handle current connected user loading
  */
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService {
+public class UserAuthenticationService implements UserDetailsService {
     @Inject
     private UserRepository userRepository;
 
@@ -24,6 +26,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if(user == null){
             throw new UsernameNotFoundException(username);
         }
-        return new UserDetailsImpl(user);
+        JwtUser userDetails = new JwtUser();
+        userDetails.setUser(user);
+        return userDetails;
     }
 }

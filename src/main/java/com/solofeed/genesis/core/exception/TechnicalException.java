@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class TechnicalException extends APIException{
+public class TechnicalException extends APIRuntimeException implements IAPIException{
     private String code;
 
     public TechnicalException(String code, String message, Throwable cause) {
@@ -15,7 +15,6 @@ public class TechnicalException extends APIException{
 
     public TechnicalException(HttpStatus status, String code, String message, Throwable cause) {
         super(message, cause);
-        this.nature = APIExceptionNature.TECHNICAL;
         this.status = status;
         this.code = code;
     }

@@ -1,5 +1,6 @@
 package com.solofeed.genesis.core.exception.handler;
 
+import com.solofeed.genesis.core.exception.dto.ErrorPayload;
 import org.springframework.http.HttpStatus;
 
 import javax.ws.rs.core.Response;
