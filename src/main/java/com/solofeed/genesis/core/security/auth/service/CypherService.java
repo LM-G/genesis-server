@@ -1,17 +1,14 @@
 package com.solofeed.genesis.core.security.auth.service;
 
 import com.google.gson.Gson;
-import com.solofeed.genesis.core.config.security.SecurityProps;
-import com.solofeed.genesis.shared.user.dto.BasicUserDto;
+import com.solofeed.genesis.core.security.config.SecurityProps;
+import com.solofeed.genesis.core.security.model.JwtUserSubject;
 import com.solofeed.genesis.shared.user.dto.UserDto;
 import com.solofeed.genesis.shared.user.mapper.UserMapper;
 import io.jsonwebtoken.*;
 import org.springframework.stereotype.Service;
 
-import javax.inject.Inject;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.function.Function;
@@ -23,13 +20,19 @@ import java.util.function.Function;
 public class CypherService {
 
     /** JSON builder */
-    @Inject private Gson gson;
+    private Gson gson;
 
     /** User DTO-Entity converter */
-    @Inject private UserMapper userMapper;
+    private UserMapper userMapper;
 
     /** Security properties */
-    @Inject private SecurityProps securityProps;
+    private SecurityProps securityProps;
+
+    public CypherService(Gson gson, UserMapper userMapper, SecurityProps securityProps){
+        this.gson = gson;
+        this.userMapper = userMapper;
+        this.securityProps = securityProps;
+    }
 
     /**
      * Create a JWT token for the provided user
@@ -38,7 +41,7 @@ public class CypherService {
      */
     public String generateToken(UserDto userDto) {
         // only stores vital minimal data in JWT
-        BasicUserDto basicUserDto = userMapper.toBasicUserDto(userDto);
+        JwtUserSubject basicUserDto = userMapper.toBasicUserDto(userDto);
         String jsonifiedBasicUser = gson.toJson(basicUserDto);
         LocalDateTime now = LocalDateTime.now();
 
@@ -62,9 +65,9 @@ public class CypherService {
      * @param token token to be scanned
      * @return user basic information
      */
-    public BasicUserDto getUserSubjectFromToken(String token) {
+    public JwtUserSubject getUserSubjectFromToken(String token) {
         String jsonifiedBasicUser = getClaimFromToken(token, Claims::getSubject);
-        return gson.fromJson(jsonifiedBasicUser, BasicUserDto.class);
+        return gson.fromJson(jsonifiedBasicUser, JwtUserSubject.class);
     }
 
     /**

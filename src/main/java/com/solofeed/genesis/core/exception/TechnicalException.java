@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class TechnicalException extends APIRuntimeException implements IAPIException{
+public class TechnicalException extends APIRuntimeException {
     private String code;
 
     public TechnicalException(String code, String message, Throwable cause) {

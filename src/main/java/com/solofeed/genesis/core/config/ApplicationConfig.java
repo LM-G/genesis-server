@@ -1,6 +1,5 @@
 package com.solofeed.genesis.core.config;
 
-import com.solofeed.genesis.core.config.converter.BodyHandler;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;

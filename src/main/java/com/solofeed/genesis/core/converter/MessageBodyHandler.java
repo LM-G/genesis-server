@@ -1,4 +1,4 @@
-package com.solofeed.genesis.core.config.converter;
+package com.solofeed.genesis.core.converter;
 
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
@@ -32,7 +32,7 @@ import java.nio.charset.StandardCharsets;
 @Provider
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class BodyHandler<T> implements MessageBodyReader<T>, MessageBodyWriter<T> {
+public class MessageBodyHandler<T> implements MessageBodyReader<T>, MessageBodyWriter<T> {
     /** option pretty print dans les query params */
     private static final String PRETTY_PRINT = "pretty-print";
     /** Normal gson instance */
@@ -43,7 +43,7 @@ public class BodyHandler<T> implements MessageBodyReader<T>, MessageBodyWriter<T
     @Context
     private UriInfo ui;
 
-    public BodyHandler() {
+    public MessageBodyHandler() {
         // Configuration de l'instance gson
         GsonBuilder builder = new GsonBuilder()
             // example : access_token

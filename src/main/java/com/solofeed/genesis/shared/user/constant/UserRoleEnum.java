@@ -28,4 +28,8 @@ public enum UserRoleEnum {
                 .findFirst()
                 .orElse(null);
     }
+
+    public String authority() {
+        return "ROLE_" + this.name();
+    }
 }

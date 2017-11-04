@@ -1,18 +1,19 @@
-package com.solofeed.genesis.core.config.security;
+package com.solofeed.genesis.core.security.config;
 
 import com.solofeed.genesis.core.config.ApplicationConfig;
-import com.solofeed.genesis.core.security.filter.JWTAuthenticationFilter;
+import com.solofeed.genesis.core.security.RestAuthenticationEntryPoint;
+import com.solofeed.genesis.core.security.jwt.JwtAuthenticationFilter;
+import com.solofeed.genesis.core.security.jwt.JwtAuthenticationProvider;
+import com.solofeed.genesis.util.SkipPathRequestMatcher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -21,6 +22,8 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.inject.Inject;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Application security provider.
@@ -28,27 +31,25 @@ import javax.inject.Inject;
 @Configuration
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {
-    /** Auth end-point in which user doesn't need to be authenticated */
-    public static final String AUTH_URL = "/" + ApplicationConfig.APPLICATION_PATH + "/auth/";
+    private static final String BASE_URL = "/" + ApplicationConfig.APPLICATION_PATH;
+    private static final String AUTH_ENTRY_POINT = BASE_URL + "/auth/";
+    private static final String SIGN_IN_ENTRY_POINT = AUTH_ENTRY_POINT + "sign-in";
+    private static final String SIGN_UP_ENTRY_POINT = AUTH_ENTRY_POINT + "sign-up";
+    private static final String PROTECTED_ENTRY_POINT = BASE_URL + "/**";
 
-    @Inject private UserDetailsService userDetailsService;
+    @Inject
+    private RestAuthenticationEntryPoint authenticationEntryPoint;
+    @Inject
+    private JwtAuthenticationProvider jwtAuthenticationProvider;
+    @Inject
+    private AuthenticationManager authenticationManager;
+    @Inject
+    private SecurityProps securityProps;
 
     @Bean
     @Override
-    protected AuthenticationManager authenticationManager() throws Exception {
-        return super.authenticationManager();
-    }
-
-    /**
-     * Describes the Spring authentication provider behavior with the custom {@link UserDetailsService} implementation.
-     * @return authentication provider
-     */
-    @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService);
-        authProvider.setPasswordEncoder(passwordEncoder());
-        return authProvider;
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
 
     /**
@@ -65,45 +66,27 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
      * @return CORS configuration
      */
     @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
+    CorsConfigurationSource corsConfigurationSource() {
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
         return source;
     }
 
-    /**
-     * Beanify the {@link JWTAuthenticationFilter} filter
-     * @return jwt authent filter
-     */
-    @Bean
-    public JWTAuthenticationFilter authenticationFilter() {
-        return new JWTAuthenticationFilter();
-    }
-
-
-    /**
-     * Security Properties
-     * @return Security properties bean
-     */
-    @Bean
-    public SecurityProps securityProps(){
-        return new SecurityProps();
-    }
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // we don't need CSRF because our token is invulnerable
-        http.cors().and().csrf().disable();
-
+        http.csrf().disable();
+        http.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint);
         http.authorizeRequests()
                 // we always authorize login and registration action
-                .antMatchers(HttpMethod.POST, AUTH_URL + "sign-in").permitAll()
-                .antMatchers(HttpMethod.POST, AUTH_URL + "sign-out").permitAll()
-                // but other requests are protec
-                .anyRequest().authenticated()
+                .antMatchers(HttpMethod.POST, SIGN_IN_ENTRY_POINT).permitAll()
+                .antMatchers(HttpMethod.POST, SIGN_UP_ENTRY_POINT).permitAll()
+                .and()
+                // but other requests are protected
+                .authorizeRequests().antMatchers(PROTECTED_ENTRY_POINT).authenticated()
                 .and()
                 // custom JWT filter
-                .addFilterBefore(authenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(buildJwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 // disables Spring session creation
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
@@ -113,6 +96,14 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(authenticationProvider());
+        auth.authenticationProvider(jwtAuthenticationProvider);
+    }
+
+    private JwtAuthenticationFilter buildJwtAuthenticationFilter()  {
+        List<String> pathsToSkip = Arrays.asList(SIGN_IN_ENTRY_POINT, SIGN_UP_ENTRY_POINT);
+        SkipPathRequestMatcher matcher = new SkipPathRequestMatcher(pathsToSkip, PROTECTED_ENTRY_POINT);
+        JwtAuthenticationFilter filter = new JwtAuthenticationFilter(securityProps, matcher);
+        filter.setAuthenticationManager(this.authenticationManager);
+        return filter;
     }
 }

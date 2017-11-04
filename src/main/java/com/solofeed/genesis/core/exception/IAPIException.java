@@ -10,6 +10,7 @@ public interface IAPIException {
 
     enum APIExceptionNature {
         FUNCTIONAL,
-        TECHNICAL
+        TECHNICAL,
+        SECURITY
     }
 }

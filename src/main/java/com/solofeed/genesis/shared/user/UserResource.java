@@ -40,7 +40,6 @@ public class UserResource {
         return userService.getUsers();
     }
 
-
     @PATCH
     @Path("{id}")
     @Consumes(MediaType.APPLICATION_JSON_PATCH_JSON)
