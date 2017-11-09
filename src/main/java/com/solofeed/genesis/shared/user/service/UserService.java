@@ -1,15 +1,15 @@
 package com.solofeed.genesis.shared.user.service;
 
 import com.solofeed.genesis.core.exception.APIException;
-import com.solofeed.genesis.core.security.auth.exception.AuthException;
+import com.solofeed.genesis.core.security.service.PasswordEncoder;
+import com.solofeed.genesis.core.security.api.exception.AuthException;
 import com.solofeed.genesis.shared.user.dao.UserRepository;
-import com.solofeed.genesis.shared.user.dto.CreateUserDto;
-import com.solofeed.genesis.shared.user.dto.UserDto;
+import com.solofeed.genesis.shared.user.api.dto.CreateUserDto;
+import com.solofeed.genesis.shared.user.api.dto.UserDto;
 import com.solofeed.genesis.shared.user.exception.UserException;
 import com.solofeed.genesis.shared.user.mapper.UserMapper;
-import com.solofeed.genesis.shared.user.model.User;
+import com.solofeed.genesis.shared.user.domain.User;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,7 +36,9 @@ public class UserService implements IUserService{
 
     @Override
     public UserDto getUser() throws NotFoundException{
-        return null;
+        UserDto user = new UserDto();
+        user.setName("yolo");
+        return user;
     }
 
     @Override

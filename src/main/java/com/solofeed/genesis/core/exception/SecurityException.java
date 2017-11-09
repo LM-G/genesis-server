@@ -1,13 +1,10 @@
 package com.solofeed.genesis.core.exception;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.AuthenticationException;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class SecurityException extends AuthenticationException implements IAPIException{
+public class SecurityException extends RuntimeException implements IAPIException{
     private final String code;
     private final HttpStatus status;
 

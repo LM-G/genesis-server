@@ -1,6 +1,6 @@
 package com.solofeed.genesis.shared.user.dao;
 
-import com.solofeed.genesis.shared.user.model.User;
+import com.solofeed.genesis.shared.user.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
