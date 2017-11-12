@@ -12,8 +12,8 @@ public class UserDto {
     private String name;
     private String email;
     private Role role;
-    private String password;
-    private String state;
-    private LocalDate createdAt;
-    private LocalDateTime updatedAt;
+    private transient String password;
+    private transient String state;
+    private transient LocalDate createdAt;
+    private transient LocalDateTime updatedAt;
 }

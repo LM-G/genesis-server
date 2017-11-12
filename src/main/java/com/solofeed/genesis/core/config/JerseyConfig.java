@@ -18,5 +18,8 @@ public class JerseyConfig extends ResourceConfig{
     public JerseyConfig() {
         // register endpoints
         packages(ENDPOINTS);
+
+        // register custom bindings
+        register(new BindingConfig());
     }
 }

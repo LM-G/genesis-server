@@ -18,7 +18,4 @@ public class SignInDto {
     /** password */
     @NotNull @Size(min = 8, max=64)
     private String password;
-
-    // todo remove this shit
-    private Boolean rememberme;
 }
