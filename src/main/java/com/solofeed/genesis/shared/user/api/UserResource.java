@@ -3,7 +3,9 @@ package com.solofeed.genesis.shared.user.api;
 import com.github.fge.jsonpatch.JsonPatchException;
 import com.solofeed.genesis.core.exception.APIException;
 import com.solofeed.genesis.core.security.decorator.Secured;
+import com.solofeed.genesis.core.security.domain.CurrentUser;
 import com.solofeed.genesis.shared.user.api.dto.UserDto;
+import com.solofeed.genesis.shared.user.domain.Role;
 import com.solofeed.genesis.shared.user.service.IUserService;
 import com.solofeed.genesis.util.JsonPatcher;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.SecurityContext;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -31,8 +34,9 @@ public class UserResource {
     private final IUserService userService;
     private final JsonPatcher jsonPatcher;
     private final Validator validator;
+
     @Context
-    private ContainerRequestContext context;
+    private SecurityContext context;
 
     @GET
     @Path("me")

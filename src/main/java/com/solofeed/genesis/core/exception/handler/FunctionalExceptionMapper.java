@@ -19,6 +19,6 @@ public class FunctionalExceptionMapper extends AbstractExceptionMapper implement
         payload.setMessage(e.getMessage());
         payload.setDetail(e.getDetail());
 
-        return this.toErrorResponse(e.getStatus(), payload, e);
+        return this.toErrorResponse(e.getStatus(), payload, e, e.getHeaders());
     }
 }

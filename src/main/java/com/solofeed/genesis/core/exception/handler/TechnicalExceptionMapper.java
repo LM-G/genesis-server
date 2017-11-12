@@ -18,6 +18,6 @@ public class TechnicalExceptionMapper extends AbstractExceptionMapper implements
         payload.setCode(e.getCode());
         payload.setMessage(e.getMessage());
 
-        return this.toErrorResponse(e.getStatus(), payload, e);
+        return this.toErrorResponse(e.getStatus(), payload, e, e.getHeaders());
     }
 }

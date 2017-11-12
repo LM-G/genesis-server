@@ -2,11 +2,11 @@ package com.solofeed.genesis.shared.user.service;
 
 import com.solofeed.genesis.core.exception.APIException;
 import com.solofeed.genesis.core.security.service.PasswordEncoder;
-import com.solofeed.genesis.core.security.api.exception.AuthException;
+import com.solofeed.genesis.core.security.api.exception.AuthError;
 import com.solofeed.genesis.shared.user.dao.UserRepository;
 import com.solofeed.genesis.shared.user.api.dto.CreateUserDto;
 import com.solofeed.genesis.shared.user.api.dto.UserDto;
-import com.solofeed.genesis.shared.user.exception.UserException;
+import com.solofeed.genesis.shared.user.exception.UserActionError;
 import com.solofeed.genesis.shared.user.mapper.UserMapper;
 import com.solofeed.genesis.shared.user.domain.User;
 import org.apache.commons.lang3.StringUtils;
@@ -45,7 +45,7 @@ public class UserService implements IUserService{
     public UserDto getUser(Long id) throws APIException{
         User user = userRepository.findOne(id);
         if(user == null){
-            throw UserException.ofNotFound("user not found");
+            throw UserActionError.ofNotFound("user not found");
         }
         return userMapper.toDto(user);
     }
@@ -56,12 +56,12 @@ public class UserService implements IUserService{
         User user = userRepository.findByNameOrEmail(login, login);
 
         if(user == null){
-            throw UserException.ofNotFound("user not found");
+            throw UserActionError.ofNotFound("user not found");
         }
 
         // checks the password,
         if(!passwordEncoder.matches(password, user.getPassword())){
-            throw AuthException.ofWrongCredentials();
+            throw AuthError.ofWrongCredentials();
         }
 
         return userMapper.toDto(user);
@@ -69,21 +69,24 @@ public class UserService implements IUserService{
 
     @Override
     @Transactional
-    public void createUser(CreateUserDto form) throws APIException{
-        User user = userRepository.findByNameOrEmail(form.getName(), form.getEmail());
+    public void createUser(CreateUserDto userDto) throws APIException{
+        // try to find the user in database
+        User user = userRepository.findByNameOrEmail(userDto.getName(), userDto.getEmail());
 
-        // detail the error
+        // detail the error in case of conflict
         if(user != null){
-            boolean nameAvailable = !StringUtils.equals(form.getName(), user.getName());
-            boolean emailAvailable = !StringUtils.equals(form.getEmail(), user.getEmail());
-            throw UserException.ofRegistrationFailed(nameAvailable, emailAvailable);
+            boolean nameAvailable = !StringUtils.equals(userDto.getName(), user.getName());
+            boolean emailAvailable = !StringUtils.equals(userDto.getEmail(), user.getEmail());
+            throw UserActionError.ofRegistrationFailed(nameAvailable, emailAvailable);
         }
 
-        user = userMapper.fromCreateDto(form);
+        // initilize user entity from provided dto
+        user = userMapper.fromCreateDto(userDto);
 
-        // hash password
+        // hash the password
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
+        // and persist the user
         userRepository.save(user);
     }
 

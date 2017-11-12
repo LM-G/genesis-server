@@ -17,5 +17,10 @@ public interface IUserService {
 
     UserDto updateUser(UserDto userDto);
 
-    void createUser(CreateUserDto form) throws APIException;
+    /**
+     * User creation
+     * @param userDto user to create
+     * @throws APIException in case of conflict with another existing user
+     */
+    void createUser(CreateUserDto userDto) throws APIException;
 }

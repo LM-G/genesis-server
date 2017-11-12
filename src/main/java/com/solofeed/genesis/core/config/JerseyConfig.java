@@ -1,7 +1,6 @@
 package com.solofeed.genesis.core.config;
 
 import org.glassfish.jersey.server.ResourceConfig;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 import javax.ws.rs.ApplicationPath;
@@ -9,7 +8,6 @@ import javax.ws.rs.ApplicationPath;
 import static com.solofeed.genesis.core.config.JerseyConfig.APPLICATION_PATH;
 
 @Configuration
-@EnableConfigurationProperties
 @ApplicationPath(APPLICATION_PATH)
 public class JerseyConfig extends ResourceConfig{
     /** Application base path */
