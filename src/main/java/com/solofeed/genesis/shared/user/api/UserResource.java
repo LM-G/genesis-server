@@ -24,6 +24,11 @@ public class UserResource {
     /** Current user context */
     @Context private CurrentUser currentUser;
 
+    /**
+     * Get the current user information
+     * @return current user information
+     * @throws APIException if user not found
+     */
     @GET
     @Path("me")
     public UserDto getUser() throws APIException{
