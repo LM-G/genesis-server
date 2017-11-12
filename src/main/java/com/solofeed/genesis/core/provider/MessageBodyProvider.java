@@ -4,7 +4,7 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
-import com.solofeed.genesis.core.exception.MarshallerException;
+import com.solofeed.genesis.core.exception.MarshallerError;
 import org.springframework.context.annotation.Bean;
 
 import javax.ws.rs.Consumes;
@@ -67,7 +67,7 @@ public class MessageBodyProvider<T> implements MessageBodyReader<T>, MessageBody
         try (InputStreamReader reader = new InputStreamReader(entityStream, StandardCharsets.UTF_8)) {
             return gson.fromJson(reader, type);
         } catch (JsonParseException e) {
-            throw MarshallerException.ofUnmarshalling(e);
+            throw MarshallerError.ofUnmarshalling(e);
         }
     }
 
@@ -87,7 +87,7 @@ public class MessageBodyProvider<T> implements MessageBodyReader<T>, MessageBody
             printWriter.write(json);
             printWriter.flush();
         } catch (JsonParseException e) {
-            throw MarshallerException.ofMarshalling(e);
+            throw MarshallerError.ofMarshalling(e);
         }
     }
 

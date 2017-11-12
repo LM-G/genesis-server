@@ -11,7 +11,7 @@ import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Secures a resource action
+ * Secures a resource class or a resource method
  */
 @NameBinding
 @Retention(RUNTIME)

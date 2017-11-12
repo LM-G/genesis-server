@@ -8,7 +8,7 @@ import java.util.Map;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class TechnicalException extends APIRuntimeException {
+public class TechnicalException extends APIRuntimeException implements IAPIException{
     private final String code;
     private final Map<String, String> headers;
 
@@ -17,9 +17,13 @@ public class TechnicalException extends APIRuntimeException {
     }
 
     public TechnicalException(HttpStatus status, String code, String message, Throwable cause, Map<String, String> headers) {
-        super(message, cause);
-        this.status = status;
+        super(status, message, cause);
         this.code = code;
         this.headers = headers;
+    }
+
+    @Override
+    public APIExceptionNature getNature() {
+        return APIExceptionNature.TECHNICAL;
     }
 }

@@ -12,13 +12,14 @@ import java.util.Map;
  * Exception builder for authentication failures
  */
 public final class AuthError {
-    public static final String WRONG_CREDENTIALS = "E_WRONG_CREDENTIALS";
-    public static final String TOKEN_CREATION = "E_TOKEN_CREATION";
-    public static final String MISSING_TOKEN = "E_MISSING_TOKEN";
-    public static final String EXPIRED_TOKEN = "E_EXPIRED_TOKEN";
-    public static final String INVALID_TOKEN = "E_INVALID_TOKEN";
-    public static final String INSUFFICIENT_PERMISSION = "E_INSUFFICIENT_PERMISSION";
-    public static final String OUT_OF_DATE_TOKEN = "E_OUT_OF_DATE_TOKEN";
+    private static final String WRONG_CREDENTIALS = "E_WRONG_CREDENTIALS";
+    private static final String TOKEN_CREATION = "E_TOKEN_CREATION";
+    private static final String MISSING_TOKEN = "E_MISSING_TOKEN";
+    private static final String EXPIRED_TOKEN = "E_EXPIRED_TOKEN";
+    private static final String INVALID_TOKEN = "E_INVALID_TOKEN";
+    private static final String INSUFFICIENT_PERMISSION = "E_INSUFFICIENT_PERMISSION";
+    private static final String OUT_OF_DATE_TOKEN = "E_OUT_OF_DATE_TOKEN";
+    private static final String CORRUPTED_HASH = "E_CORRUPTED_HASH";
 
     /** Private constructor */
     private AuthError(){
@@ -85,5 +86,13 @@ public final class AuthError {
      */
     public static SecurityException ofOutOfDateJWT(){
         return new SecurityException(OUT_OF_DATE_TOKEN, "User identity was updated, token out of date");
+    }
+
+    /**
+     * When a stored hashed password has an incorrect format
+     * @return technical exception of corrupted hashed password
+     */
+    public static TechnicalException ofCorruptedPassword(){
+        return new TechnicalException(CORRUPTED_HASH, "Hashed password is invalid", null);
     }
 }

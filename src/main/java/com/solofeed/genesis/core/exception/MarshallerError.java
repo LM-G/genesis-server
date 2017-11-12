@@ -2,12 +2,12 @@ package com.solofeed.genesis.core.exception;
 
 import com.google.gson.JsonParseException;
 
-public final class MarshallerException {
+public final class MarshallerError {
     private static final String E_COULDNOT_MARSHAL = "E_COULDNOT_MARSHAL";
     private static final String E_COULDNOT_UNMARSHAL = "E_COULDNOT_UNMARSHAL";
 
 
-    private MarshallerException(){
+    private MarshallerError(){
         // no-op
     }
 

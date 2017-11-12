@@ -12,13 +12,15 @@ import com.solofeed.genesis.shared.user.api.dto.UserDto;
 import com.solofeed.genesis.shared.user.service.IUserService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
-import javax.inject.Inject;
-import javax.security.auth.message.AuthException;
 import javax.validation.Valid;
-import javax.ws.rs.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.QueryParam;
 
 /**
  * Authentication resource
@@ -52,9 +54,7 @@ public class AuthResource {
             throw AuthError.ofOutOfDateJWT();
         }
 
-        TokensDto newTokens = tokenService.refresh(refreshToken);
-
-        return newTokens;
+        return tokenService.refresh(refreshToken);
     }
 
     /**
@@ -87,5 +87,6 @@ public class AuthResource {
     @POST @Secured
     @Path("/sign-out")
     public void logout(SignInDto form){
+        throw new NotImplementedException("wip");
     }
 }

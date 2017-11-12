@@ -3,7 +3,6 @@ package com.solofeed.genesis.core.security.domain;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +19,7 @@ import java.util.Base64;
 @PropertySource("classpath:security.properties")
 @ConfigurationProperties(prefix = "jwt")
 public class SecurityProps {
+
     /** Authentication scheme */
     private String authScheme;
 

@@ -1,22 +1,20 @@
 package com.solofeed.genesis.core.exception;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.http.HttpStatus;
 
 @Data
-public abstract class APIRuntimeException extends RuntimeException implements IAPIException{
-    protected HttpStatus status;
+@EqualsAndHashCode(callSuper = true)
+public abstract class APIRuntimeException extends RuntimeException {
+    protected final HttpStatus status;
 
-    protected APIRuntimeException(String message){
-        super(message);
+    protected APIRuntimeException(HttpStatus status, String message){
+        this(status, message, null);
     }
 
-    protected APIRuntimeException(String message, Throwable cause){
+    protected APIRuntimeException(HttpStatus status, String message, Throwable cause){
         super(message, cause);
-    }
-
-    @Override
-    public APIExceptionNature getNature() {
-        return APIExceptionNature.TECHNICAL;
+        this.status = status;
     }
 }

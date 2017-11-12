@@ -12,8 +12,11 @@ import java.security.Principal;
 @Builder
 @RequiredArgsConstructor
 public class UserContext implements SecurityContext {
+
     /** Authenticated user */
     private final CurrentUser user;
+
+    /** Auth scheme (BEARER, BASIC, etc)*/
     private final String authenticationScheme;
 
     @Override

@@ -9,7 +9,7 @@ import java.util.Map;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class FunctionalException extends APIException{
+public class FunctionalException extends APIException implements IAPIException{
     private final String code;
     private final Map<String, String> detail;
     private final Map<String, String> headers;
@@ -23,10 +23,14 @@ public class FunctionalException extends APIException{
     }
 
     public FunctionalException(HttpStatus status, String code, String message, Map<String, String> detail, Map<String, String> headers) {
-        super(message);
-        this.status = status;
+        super(status, message);
         this.code = code;
         this.detail = detail;
         this.headers = headers;
+    }
+
+    @Override
+    public APIExceptionNature getNature() {
+        return APIExceptionNature.FUNCTIONAL;
     }
 }
