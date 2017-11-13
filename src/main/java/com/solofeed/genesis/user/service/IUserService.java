@@ -1,8 +1,8 @@
-package com.solofeed.genesis.shared.user.service;
+package com.solofeed.genesis.user.service;
 
 import com.solofeed.genesis.core.exception.APIException;
-import com.solofeed.genesis.shared.user.api.dto.CreateUserDto;
-import com.solofeed.genesis.shared.user.api.dto.UserDto;
+import com.solofeed.genesis.user.api.dto.CreateUserDto;
+import com.solofeed.genesis.user.api.dto.UserDto;
 
 import java.util.List;
 

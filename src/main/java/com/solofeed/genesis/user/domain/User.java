@@ -1,6 +1,6 @@
-package com.solofeed.genesis.shared.user.domain;
+package com.solofeed.genesis.user.domain;
 
-import com.solofeed.genesis.shared.user.dao.converter.UserRoleConverter;
+import com.solofeed.genesis.user.dao.converter.UserRoleConverter;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;

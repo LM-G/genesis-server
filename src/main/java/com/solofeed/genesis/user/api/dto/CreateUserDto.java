@@ -1,4 +1,4 @@
-package com.solofeed.genesis.shared.user.api.dto;
+package com.solofeed.genesis.user.api.dto;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.Email;

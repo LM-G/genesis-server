@@ -1,4 +1,4 @@
-package com.solofeed.genesis.shared.user.domain;
+package com.solofeed.genesis.user.domain;
 
 import lombok.NonNull;
 

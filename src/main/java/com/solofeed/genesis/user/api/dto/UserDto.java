@@ -1,6 +1,6 @@
-package com.solofeed.genesis.shared.user.api.dto;
+package com.solofeed.genesis.user.api.dto;
 
-import com.solofeed.genesis.shared.user.domain.Role;
+import com.solofeed.genesis.user.domain.Role;
 import lombok.Data;
 
 import java.time.LocalDate;

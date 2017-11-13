@@ -1,4 +1,4 @@
-package com.solofeed.genesis.shared.user.exception;
+package com.solofeed.genesis.user.exception;
 
 import com.solofeed.genesis.core.exception.FunctionalException;
 import com.solofeed.genesis.core.exception.GenericError;

@@ -1,6 +1,6 @@
-package com.solofeed.genesis.shared.user.dao.converter;
+package com.solofeed.genesis.user.dao.converter;
 
-import com.solofeed.genesis.shared.user.domain.Role;
+import com.solofeed.genesis.user.domain.Role;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

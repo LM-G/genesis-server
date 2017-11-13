@@ -21,5 +21,6 @@ public class JerseyConfig extends ResourceConfig{
 
         // register custom bindings
         register(new BindingConfig());
+
     }
 }

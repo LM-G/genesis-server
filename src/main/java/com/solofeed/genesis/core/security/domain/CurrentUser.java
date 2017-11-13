@@ -1,6 +1,6 @@
 package com.solofeed.genesis.core.security.domain;
 
-import com.solofeed.genesis.shared.user.domain.Role;
+import com.solofeed.genesis.user.domain.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

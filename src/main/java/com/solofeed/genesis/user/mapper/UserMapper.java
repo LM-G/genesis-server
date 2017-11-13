@@ -1,9 +1,9 @@
-package com.solofeed.genesis.shared.user.mapper;
+package com.solofeed.genesis.user.mapper;
 
 import com.solofeed.genesis.core.security.api.dto.UserTokenDto;
-import com.solofeed.genesis.shared.user.api.dto.UserDto;
-import com.solofeed.genesis.shared.user.api.dto.CreateUserDto;
-import com.solofeed.genesis.shared.user.domain.User;
+import com.solofeed.genesis.user.api.dto.UserDto;
+import com.solofeed.genesis.user.api.dto.CreateUserDto;
+import com.solofeed.genesis.user.domain.User;
 import org.mapstruct.Mapper;
 
 import java.util.List;

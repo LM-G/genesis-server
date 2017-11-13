@@ -1,6 +1,6 @@
 package com.solofeed.genesis.core.security.decorator;
 
-import com.solofeed.genesis.shared.user.domain.Role;
+import com.solofeed.genesis.user.domain.Role;
 
 import javax.ws.rs.NameBinding;
 import java.lang.annotation.Retention;

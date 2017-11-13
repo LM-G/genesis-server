@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import javax.inject.Singleton;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.HashMap;
 import java.util.Map;
 
 @Log4j2
@@ -42,8 +43,7 @@ public abstract class AbstractExceptionMapper {
      * @return error response
      */
     protected Response toErrorResponse(HttpStatus status, ErrorPayload payload, Throwable t) {
-        LOGGER.trace(t);
-        return create(status, payload, null);
+        return toErrorResponse(status, payload, t, new HashMap<>());
     }
 
     /**

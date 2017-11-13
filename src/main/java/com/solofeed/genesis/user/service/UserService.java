@@ -1,14 +1,14 @@
-package com.solofeed.genesis.shared.user.service;
+package com.solofeed.genesis.user.service;
 
 import com.solofeed.genesis.core.exception.APIException;
 import com.solofeed.genesis.core.security.api.exception.AuthError;
 import com.solofeed.genesis.core.security.service.PasswordEncoder;
-import com.solofeed.genesis.shared.user.api.dto.CreateUserDto;
-import com.solofeed.genesis.shared.user.api.dto.UserDto;
-import com.solofeed.genesis.shared.user.dao.UserRepository;
-import com.solofeed.genesis.shared.user.domain.User;
-import com.solofeed.genesis.shared.user.exception.UserActionError;
-import com.solofeed.genesis.shared.user.mapper.UserMapper;
+import com.solofeed.genesis.user.api.dto.CreateUserDto;
+import com.solofeed.genesis.user.api.dto.UserDto;
+import com.solofeed.genesis.user.dao.UserRepository;
+import com.solofeed.genesis.user.domain.User;
+import com.solofeed.genesis.user.exception.UserActionError;
+import com.solofeed.genesis.user.mapper.UserMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

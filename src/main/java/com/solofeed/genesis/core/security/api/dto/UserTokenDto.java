@@ -1,6 +1,6 @@
 package com.solofeed.genesis.core.security.api.dto;
 
-import com.solofeed.genesis.shared.user.domain.Role;
+import com.solofeed.genesis.user.domain.Role;
 import lombok.Data;
 
 /**
