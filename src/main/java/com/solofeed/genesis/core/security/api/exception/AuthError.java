@@ -1,9 +1,9 @@
 package com.solofeed.genesis.core.security.api.exception;
 
-import com.solofeed.genesis.core.exception.APIException;
-import com.solofeed.genesis.core.exception.FunctionalException;
-import com.solofeed.genesis.core.exception.SecurityException;
-import com.solofeed.genesis.core.exception.TechnicalException;
+import com.solofeed.genesis.core.exception.model.APIException;
+import com.solofeed.genesis.core.exception.model.FunctionalException;
+import com.solofeed.genesis.core.exception.model.SecurityException;
+import com.solofeed.genesis.core.exception.model.TechnicalException;
 import org.springframework.http.HttpStatus;
 
 import java.util.Map;

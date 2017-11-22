@@ -34,7 +34,7 @@ import java.nio.charset.StandardCharsets;
 @Consumes(MediaType.APPLICATION_JSON)
 public class MessageBodyProvider<T> implements MessageBodyReader<T>, MessageBodyWriter<T> {
     /** option pretty print dans les query params */
-    private static final String PRETTY_PRINT = "pretty-print";
+    public static final String PRETTY_PRINT = "pretty-print";
     /** Normal gson instance */
     private final Gson gson;
     /** gson instance with pretty print enabled */
@@ -93,12 +93,8 @@ public class MessageBodyProvider<T> implements MessageBodyReader<T>, MessageBody
 
     @Override
     public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
+        // by default
         return true;
-    }
-
-    @Override
-    public long getSize(T t, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
-        return -1;
     }
 
     @Bean

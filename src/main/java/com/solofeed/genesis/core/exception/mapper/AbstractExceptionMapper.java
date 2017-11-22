@@ -1,9 +1,10 @@
-package com.solofeed.genesis.core.exception.handler;
+package com.solofeed.genesis.core.exception.mapper;
 
 
 import com.solofeed.genesis.core.exception.dto.ErrorPayload;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
+import org.springframework.util.CollectionUtils;
 
 import javax.inject.Singleton;
 import javax.ws.rs.core.MediaType;
@@ -13,26 +14,15 @@ import java.util.Map;
 
 @Log4j2
 @Singleton
-public abstract class AbstractExceptionMapper {
+abstract class AbstractExceptionMapper {
     /**
      * Construct an error response
      * @param status status of the response
      * @param payload payload of the response
      * @return error response
      */
-    protected Response toErrorResponse(HttpStatus status, ErrorPayload payload) {
+    Response toErrorResponse(HttpStatus status, ErrorPayload payload) {
         return create(status, payload, null);
-    }
-
-    /**
-     * Construct an error response
-     * @param status status of the response
-     * @param payload payload of the response
-     * @param headers possible headers
-     * @return error response
-     */
-    protected Response toErrorResponse(HttpStatus status, ErrorPayload payload, Map<String, String> headers) {
-        return create(status, payload, headers);
     }
 
     /**
@@ -42,7 +32,7 @@ public abstract class AbstractExceptionMapper {
      * @param t cause of this error
      * @return error response
      */
-    protected Response toErrorResponse(HttpStatus status, ErrorPayload payload, Throwable t) {
+    Response toErrorResponse(HttpStatus status, ErrorPayload payload, Throwable t) {
         return toErrorResponse(status, payload, t, new HashMap<>());
     }
 
@@ -54,7 +44,7 @@ public abstract class AbstractExceptionMapper {
      * @param headers possible headers
      * @return error response
      */
-    protected Response toErrorResponse(HttpStatus status, ErrorPayload payload, Throwable t, Map<String, String> headers) {
+    Response toErrorResponse(HttpStatus status, ErrorPayload payload, Throwable t, Map<String, String> headers) {
         LOGGER.trace(t);
         return create(status, payload, headers);
     }
@@ -70,10 +60,12 @@ public abstract class AbstractExceptionMapper {
         Response.ResponseBuilder responseBuilder = Response.status(status.value())
             .type(MediaType.APPLICATION_JSON)
             .entity(payload);
-
-        for(Map.Entry<String, String> header : headers.entrySet()){
-            responseBuilder.header(header.getKey(), header.getValue());
+        if(!CollectionUtils.isEmpty(headers)){
+            for(Map.Entry<String, String> header : headers.entrySet()){
+                responseBuilder.header(header.getKey(), header.getValue());
+            }
         }
+
 
         return responseBuilder.build();
     }

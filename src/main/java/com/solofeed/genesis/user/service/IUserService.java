@@ -1,6 +1,6 @@
 package com.solofeed.genesis.user.service;
 
-import com.solofeed.genesis.core.exception.APIException;
+import com.solofeed.genesis.core.exception.model.APIException;
 import com.solofeed.genesis.user.api.dto.CreateUserDto;
 import com.solofeed.genesis.user.api.dto.UserDto;
 

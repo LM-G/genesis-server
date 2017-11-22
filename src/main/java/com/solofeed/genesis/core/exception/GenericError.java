@@ -1,23 +1,21 @@
 package com.solofeed.genesis.core.exception;
 
+import com.solofeed.genesis.core.exception.model.FunctionalException;
+import lombok.experimental.UtilityClass;
 import org.springframework.http.HttpStatus;
 
 /**
  * Generic error builder
  */
-public abstract class GenericError {
-    /** hidden constructor */
-    protected GenericError(){
-        // no-op
-    }
-
+@UtilityClass
+public class GenericError {
     /**
      * When resource is not found
-     * @param message debug message
      * @param code functional custom code
-     * @return function exception of resource not found
+     * @param message debug message
+     * @return function exception of resource not found with http status 404
      */
-    protected static FunctionalException ofNotFound(String message, String code){
+    public static FunctionalException ofNotFound(String code , String message){
         return new FunctionalException(HttpStatus.NOT_FOUND, code, message);
     }
 }

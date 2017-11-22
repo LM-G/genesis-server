@@ -16,11 +16,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Log4j2
 @Component
 public class MainScheduler {
+    private final static long TICK_RATE = 50L;
     private BehaviorSubject<Integer> counter$ = BehaviorSubject.createDefault(0);
+
     /**
      * 20Hz main loop, refreshing app state 20 times per second
      */
-    @Scheduled(fixedRate = 10)
+    @Scheduled(fixedRate = TICK_RATE)
     public void update() {
         counter$.onNext(counter$.getValue() + 1);
     }

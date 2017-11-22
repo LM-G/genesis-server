@@ -1,6 +1,6 @@
 package com.solofeed.genesis.user.api;
 
-import com.solofeed.genesis.core.exception.APIException;
+import com.solofeed.genesis.core.exception.model.APIException;
 import com.solofeed.genesis.core.security.decorator.Secured;
 import com.solofeed.genesis.core.security.domain.CurrentUser;
 import com.solofeed.genesis.user.api.dto.UserDto;

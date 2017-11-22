@@ -1,4 +1,4 @@
 package com.solofeed.genesis.core.ws;
 
-public class MainScheduler {
+public class WebSocketEmitter {
 }

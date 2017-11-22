@@ -1,6 +1,6 @@
 package com.solofeed.genesis.core.security.api;
 
-import com.solofeed.genesis.core.exception.APIException;
+import com.solofeed.genesis.core.exception.model.APIException;
 import com.solofeed.genesis.core.security.api.dto.SignInDto;
 import com.solofeed.genesis.core.security.api.dto.TokensDto;
 import com.solofeed.genesis.core.security.api.dto.UserTokenDto;

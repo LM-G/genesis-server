@@ -1,6 +1,6 @@
-package com.solofeed.genesis.core.exception.handler;
+package com.solofeed.genesis.core.exception.mapper;
 
-import com.solofeed.genesis.core.exception.SecurityException;
+import com.solofeed.genesis.core.exception.model.SecurityException;
 import com.solofeed.genesis.core.exception.dto.ErrorPayload;
 
 import javax.ws.rs.core.Response;
