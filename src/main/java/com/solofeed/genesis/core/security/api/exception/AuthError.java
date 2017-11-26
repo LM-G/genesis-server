@@ -4,6 +4,7 @@ import com.solofeed.genesis.core.exception.model.APIException;
 import com.solofeed.genesis.core.exception.model.FunctionalException;
 import com.solofeed.genesis.core.exception.model.SecurityException;
 import com.solofeed.genesis.core.exception.model.TechnicalException;
+import lombok.experimental.UtilityClass;
 import org.springframework.http.HttpStatus;
 
 import java.util.Map;
@@ -11,7 +12,8 @@ import java.util.Map;
 /**
  * Exception builder for authentication failures
  */
-public final class AuthError {
+@UtilityClass
+public class AuthError {
     private static final String WRONG_CREDENTIALS = "E_WRONG_CREDENTIALS";
     private static final String TOKEN_CREATION = "E_TOKEN_CREATION";
     private static final String MISSING_TOKEN = "E_MISSING_TOKEN";
@@ -21,17 +23,12 @@ public final class AuthError {
     private static final String OUT_OF_DATE_TOKEN = "E_OUT_OF_DATE_TOKEN";
     private static final String CORRUPTED_HASH = "E_CORRUPTED_HASH";
 
-    /** Private constructor */
-    private AuthError(){
-        // no-op
-    }
-
     /**
      * User supplied the wrong credentials
      * @return functional exception of wrong credentials
      */
-    public static APIException ofWrongCredentials(){
-        return new FunctionalException(HttpStatus.UNAUTHORIZED,WRONG_CREDENTIALS, "Authentication failed, wrong credentials");
+    public static SecurityException ofWrongCredentials(){
+        return new SecurityException(WRONG_CREDENTIALS, "Authentication failed, wrong credentials");
     }
 
     /**

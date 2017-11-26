@@ -86,7 +86,7 @@ public class AuthResource {
 
     @POST @Secured
     @Path("/sign-out")
-    public void logout(SignInDto form){
+    public void logout(){
         throw new NotImplementedException("wip");
     }
 }

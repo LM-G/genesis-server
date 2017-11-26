@@ -12,7 +12,7 @@ import java.util.Map;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class TechnicalException extends APIRuntimeException implements IAPIException {
+public class TechnicalException extends APIRuntimeException {
     /**
      * Simple technical exception with http status 500 and no custom headers
      * @param code custom code for front handling

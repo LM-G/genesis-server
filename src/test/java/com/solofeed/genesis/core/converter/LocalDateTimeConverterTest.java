@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Calendar;
 
-import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Test {@link LocalDateTimeConverter}
@@ -29,19 +29,20 @@ public class LocalDateTimeConverterTest {
         Timestamp dateConverted = converter.convertToDatabaseColumn(now);
 
         // assertions
-        assertTrue(dateConverted.equals(Timestamp.valueOf(now)));
+        assertThat(dateConverted).isEqualTo(Timestamp.valueOf(now));
     }
 
     @Test
     public void shouldConvertToEntityAttribute() throws Exception {
         // init
         Timestamp now = new Timestamp(Calendar.getInstance().getTimeInMillis());
+        LocalDateTime nowLocalDate = now.toLocalDateTime();
 
         // excecution
         LocalDateTime dateConverted = converter.convertToEntityAttribute(now);
 
         // assertions
-        assertTrue(dateConverted.equals(LocalDateTime.now()));
+        assertThat(dateConverted).isEqualTo(nowLocalDate);
     }
 
 }

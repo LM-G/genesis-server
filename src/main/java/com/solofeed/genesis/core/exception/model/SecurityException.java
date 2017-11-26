@@ -13,7 +13,7 @@ import java.util.Map;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class SecurityException extends APIRuntimeException implements IAPIException {
+public class SecurityException extends APIRuntimeException {
 
     /**
      * Simple security exception with http status 401 and no custom headers

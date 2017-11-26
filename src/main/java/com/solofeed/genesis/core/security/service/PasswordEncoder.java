@@ -10,11 +10,12 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class PasswordEncoder {
+
     /**
      * Hashes a password using BCrypt.
      *
      * @param plainTextPassword password to encrypt
-     * @return
+     * @return hashed password with salt of 10
      */
     public String encode(String plainTextPassword) {
         String salt = BCrypt.gensalt();

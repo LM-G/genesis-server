@@ -13,6 +13,7 @@ import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Priority;
@@ -29,6 +30,7 @@ import java.util.Map;
  * Authentication filter for parsing all incoming request trying to reach secured resources.
  */
 @Log4j2
+@Component
 @Provider @Secured @Priority(Priorities.AUTHENTICATION)
 @RequiredArgsConstructor(onConstructor = @__(@Inject))
 public class AuthenticationFilter implements ContainerRequestFilter {

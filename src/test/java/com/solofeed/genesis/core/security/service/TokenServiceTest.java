@@ -9,6 +9,7 @@ import com.solofeed.genesis.user.api.dto.UserDto;
 import com.solofeed.genesis.user.domain.Role;
 import com.solofeed.genesis.user.mapper.UserMapper;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -66,7 +67,7 @@ public class TokenServiceTest {
         now.add(Calendar.MINUTE, (int) EXPIRE_MINUTE);
         expiresIn = now.getTime();
 
-        key = generateKey(SECRET);
+
         user = new UserTokenDto();
         user.setId(1L);
         user.setName("foo");
@@ -77,10 +78,9 @@ public class TokenServiceTest {
             .setId("foo")
             .setExpiration(expiresIn);
 
-        signedJwt = Jwts.builder()
-            .setClaims(claims)
-            .signWith(SignatureAlgorithm.HS512, key)
-            .compact();
+        key = generateKey(SECRET);
+        signedJwt = buildJwt(claims, key);
+
         securityProps.setKey(key);
         securityProps.setIssuer(ISSUER);
         securityProps.setAlgorithm(SignatureAlgorithm.HS512.getValue());
@@ -158,10 +158,7 @@ public class TokenServiceTest {
         Date now = new Date();
 
         claims.setExpiration(inOneMonth).setId("foo");
-        String refreshToken = Jwts.builder()
-            .setClaims(claims)
-            .signWith(SignatureAlgorithm.HS512, key)
-            .compact();
+        String refreshToken = buildJwt(claims, key);
 
         String jsonifiedUser = claims.getSubject();
 
@@ -199,10 +196,7 @@ public class TokenServiceTest {
         Date now = new Date();
 
         claims.setExpiration(closeToInvalidity).setId("foo");
-        String refreshToken = Jwts.builder()
-            .setClaims(claims)
-            .signWith(SignatureAlgorithm.HS512, key)
-            .compact();
+        String refreshToken = buildJwt(claims, key);
 
         String jsonifiedUser = claims.getSubject();
 
@@ -250,15 +244,35 @@ public class TokenServiceTest {
     @Test
     public void shouldNotValidateInvalidToken(){
         // init
-        signedJwt = Jwts.builder()
-            .setClaims(claims)
-            .signWith(SignatureAlgorithm.HS512, generateKey("bar"))
-            .compact();
+        signedJwt = buildJwt(claims, generateKey("bar"));
 
         // execution / assertion
         assertThatThrownBy(() -> {
             tokenService.extractUser(signedJwt);
         }).isInstanceOf(SignatureException.class);
+    }
+
+    @Test
+    public void shouldNotValidateExpiredToken(){
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MINUTE, -1);
+        Date passed = cal.getTime();
+
+        // init
+        claims.setExpiration(passed);
+        signedJwt = buildJwt(claims, key);
+
+        // execution / assertion
+        assertThatThrownBy(() -> {
+            tokenService.extractUser(signedJwt);
+        }).isInstanceOf(ExpiredJwtException.class);
+    }
+
+    private static String buildJwt(Claims claims, Key secret){
+        return Jwts.builder()
+            .setClaims(claims)
+            .signWith(SignatureAlgorithm.HS512, secret)
+            .compact();
     }
 
     private static Key generateKey(String secret){

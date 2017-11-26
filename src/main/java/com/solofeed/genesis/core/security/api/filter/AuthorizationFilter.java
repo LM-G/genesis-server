@@ -20,8 +20,7 @@ import java.lang.reflect.Method;
 /**
  * Authorization filter to check user permissions before accessing a resource
  */
-@Log4j2
-@Provider @Secured @Priority(Priorities.AUTHORIZATION)
+@Secured @Provider @Priority(Priorities.AUTHORIZATION)
 public class AuthorizationFilter implements ContainerRequestFilter {
 
     @Context
@@ -43,9 +42,13 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 
         // Check if the user is allowed to execute the method
         // The method annotations override the class annotations
-        boolean accessGranted = rolesFromMethod == Role.SIMPLE ?
-                userContext.isUserInRole(roleFromClass) :
-                userContext.isUserInRole(rolesFromMethod);
+        boolean accessGranted = true;
+
+        if(rolesFromMethod != null) {
+            accessGranted = userContext.isUserInRole(rolesFromMethod);
+        } else if( roleFromClass != null) {
+            accessGranted = userContext.isUserInRole(roleFromClass);
+        }
 
         if(!accessGranted) {
             throw AuthError.ofInsufficientPermission();
@@ -58,10 +61,10 @@ public class AuthorizationFilter implements ContainerRequestFilter {
      * @return role
      */
     private Role extractRole(AnnotatedElement annotatedElement) {
-        Role role = Role.SIMPLE;
+        Role role = null;
         if (annotatedElement != null) {
             Secured secured = annotatedElement.getAnnotation(Secured.class);
-            role = secured == null ? Role.SIMPLE : secured.value();
+            role = secured != null ? secured.value() : null;
         }
         return role;
     }
