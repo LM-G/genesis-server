@@ -7,8 +7,9 @@ import com.solofeed.genesis.core.security.api.dto.TokensDto;
 import com.solofeed.genesis.core.security.api.dto.UserTokenDto;
 import com.solofeed.genesis.core.security.service.TokenService;
 import com.solofeed.genesis.user.api.dto.CreateUserDto;
+import com.solofeed.genesis.user.api.dto.CreateUserDtoBuilder;
 import com.solofeed.genesis.user.api.dto.UserDto;
-import com.solofeed.genesis.user.service.IUserService;
+import com.solofeed.genesis.user.service.UserService;
 import org.apache.commons.lang3.NotImplementedException;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,7 +22,9 @@ import org.springframework.http.HttpStatus;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * Test {@link AuthResource}
@@ -31,7 +34,7 @@ public class AuthResourceTest {
     private AuthResource authResource;
 
     @Mock
-    private IUserService userService;
+    private UserService userService;
     @Mock
     private TokenService tokenService;
 
@@ -153,13 +156,7 @@ public class AuthResourceTest {
     @Test
     public void shouldRegister() throws Exception {
         // init
-        CreateUserDto createUserDto = new CreateUserDto();
-        createUserDto.setEmail("foo@bar.com");
-        createUserDto.setName("foo");
-        createUserDto.setPassword("bar");
-
-        // stubbing
-
+        CreateUserDto createUserDto = CreateUserDtoBuilder.aDefaultCreateUserDto().build();
 
         // execution
         authResource.register(createUserDto);

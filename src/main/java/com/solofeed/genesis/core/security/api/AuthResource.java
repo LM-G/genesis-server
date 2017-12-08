@@ -9,7 +9,7 @@ import com.solofeed.genesis.core.security.decorator.Secured;
 import com.solofeed.genesis.core.security.service.TokenService;
 import com.solofeed.genesis.user.api.dto.CreateUserDto;
 import com.solofeed.genesis.user.api.dto.UserDto;
-import com.solofeed.genesis.user.service.IUserService;
+import com.solofeed.genesis.user.service.UserService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.NotImplementedException;
@@ -30,7 +30,7 @@ import javax.ws.rs.QueryParam;
 public class AuthResource {
 
     /** Users handling service */
-    private final IUserService userService;
+    private final UserService userService;
 
     /** Tokens creation factory */
     private final TokenService tokenService;

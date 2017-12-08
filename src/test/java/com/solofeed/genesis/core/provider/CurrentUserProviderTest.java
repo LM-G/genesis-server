@@ -2,11 +2,13 @@ package com.solofeed.genesis.core.provider;
 
 import com.solofeed.genesis.core.security.domain.CurrentUser;
 import com.solofeed.genesis.user.domain.Role;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import javax.ws.rs.core.SecurityContext;
 
@@ -18,11 +20,17 @@ import static org.mockito.Mockito.when;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class CurrentUserProviderTest {
-    @InjectMocks
+
     private CurrentUserProvider currentUserProvider;
 
     @Mock
     private SecurityContext securityContext;
+
+    @Before
+    public void setUp(){
+        currentUserProvider = new CurrentUserProvider();
+        ReflectionTestUtils.setField(currentUserProvider, "context", securityContext);
+    }
 
     @Test
     public void shouldProvideCurrentUser(){

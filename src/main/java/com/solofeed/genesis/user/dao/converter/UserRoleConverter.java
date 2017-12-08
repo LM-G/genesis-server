@@ -7,10 +7,11 @@ import org.slf4j.LoggerFactory;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
+/**
+ * Converts a {@link Role} form and to database environment
+ */
 @Converter(autoApply = true)
 public class UserRoleConverter implements AttributeConverter<Role, Integer> {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserRoleConverter.class);
 
     @Override
     public Integer convertToDatabaseColumn(Role role) {
@@ -19,12 +20,6 @@ public class UserRoleConverter implements AttributeConverter<Role, Integer> {
 
     @Override
     public Role convertToEntityAttribute(Integer value) {
-        try {
-            return Role.fromValue(value);
-        } catch (Exception e) {
-            String errorMssg = "Unknown value for " + Role.class.getName() + " : " + value;
-            LOGGER.trace(errorMssg, e);
-            throw new IllegalArgumentException(errorMssg);
-        }
+        return Role.fromValue(value);
     }
 }

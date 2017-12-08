@@ -1,36 +1,40 @@
 package com.solofeed.genesis.core.scheduler;
 
+import com.solofeed.genesis.core.event.UpdateEvent;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.BehaviorSubject;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Genesis main scheduler
  */
 @Log4j2
 @Component
+@RequiredArgsConstructor
 public class MainScheduler {
-    private final static long TICK_RATE = 50L;
-    private BehaviorSubject<Integer> counter$ = BehaviorSubject.createDefault(0);
+    private final static long TICK_RATE = 100L;
+    private BehaviorSubject<Integer> counterSubject = BehaviorSubject.createDefault(0);
+    private final ApplicationEventPublisher publisher;
 
     /**
-     * 20Hz main loop, refreshing app state 20 times per second
+     * 10Hz main loop, refreshing app state 10 times per second
      */
     @Scheduled(fixedRate = TICK_RATE)
     public void update() {
-        counter$.onNext(counter$.getValue() + 1);
+        counterSubject.onNext(counterSubject.getValue() + 1);
     }
 
 
     @PostConstruct
     public void process() {
-        counter$.subscribe(new Observer<Integer>() {
+        counterSubject.subscribe(new Observer<Integer>() {
 
             @Override
             public void onSubscribe(Disposable d) {
@@ -39,9 +43,7 @@ public class MainScheduler {
 
             @Override
             public void onNext(Integer value) {
-                if(value % 100 == 0) {
-                    LOGGER.debug(Thread.currentThread().getName()+"- Main: " + value/100 );
-                }
+                publisher.publishEvent(UpdateEvent.of(Long.valueOf(value)));
             }
 
             @Override

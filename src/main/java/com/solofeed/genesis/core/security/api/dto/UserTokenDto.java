@@ -1,9 +1,7 @@
 package com.solofeed.genesis.core.security.api.dto;
 
 import com.solofeed.genesis.user.domain.Role;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * Simple user information's stored in the JWT

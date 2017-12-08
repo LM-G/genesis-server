@@ -4,7 +4,6 @@ import com.solofeed.genesis.core.security.api.exception.AuthError;
 import com.solofeed.genesis.core.security.decorator.Secured;
 import com.solofeed.genesis.core.security.domain.UserContext;
 import com.solofeed.genesis.user.domain.Role;
-import lombok.extern.log4j.Log4j2;
 
 import javax.annotation.Priority;
 import javax.ws.rs.Priorities;

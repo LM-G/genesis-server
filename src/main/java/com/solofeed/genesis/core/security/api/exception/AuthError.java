@@ -1,7 +1,5 @@
 package com.solofeed.genesis.core.security.api.exception;
 
-import com.solofeed.genesis.core.exception.model.APIException;
-import com.solofeed.genesis.core.exception.model.FunctionalException;
 import com.solofeed.genesis.core.exception.model.SecurityException;
 import com.solofeed.genesis.core.exception.model.TechnicalException;
 import lombok.experimental.UtilityClass;

@@ -1,6 +1,7 @@
 package com.solofeed.genesis.util;
 
 import lombok.NonNull;
+import lombok.experimental.UtilityClass;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -9,12 +10,8 @@ import java.util.Date;
 /**
  * Date transformation utilities
  */
+@UtilityClass
 public final class DateUtils {
-    /** private constructor */
-    private DateUtils(){
-        // no-op
-    }
-
     /**
      * Transform a {@link LocalDateTime} with an associated {@link ZoneId} to a {@link Date}
      */

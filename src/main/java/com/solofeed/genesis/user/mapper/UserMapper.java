@@ -16,5 +16,5 @@ public interface UserMapper {
     UserTokenDto toSubjectDto(UserDto userDto);
 
     List<UserDto> toDto(List<User> user);
-    List<UserDto> fromDto(List<UserDto> user);
+    List<User> fromDto(List<UserDto> user);
 }

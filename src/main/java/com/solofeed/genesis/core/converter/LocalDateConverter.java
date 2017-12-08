@@ -1,23 +1,49 @@
 package com.solofeed.genesis.core.converter;
 
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
-import java.sql.Date;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonToken;
+import com.google.gson.stream.JsonWriter;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.boot.context.properties.ConfigurationPropertiesBinding;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
+
+import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
- * Converts a {@link LocalDate} in {@link Date} since JPA doesn"t support it yet, waiting for JPA2.2
+ * Handles conversion between a {@link LocalDate} and a representing {@link String}
  */
-@Converter(autoApply = true)
-public class LocalDateConverter implements AttributeConverter<LocalDate, Date> {
-
+@Component
+@ConfigurationPropertiesBinding
+public class LocalDateConverter extends TypeAdapter<LocalDate> implements Converter<String, LocalDate> {
     @Override
-    public Date convertToDatabaseColumn(LocalDate date) {
-        return date == null ? null : Date.valueOf(date);
+    public LocalDate convert(String source) {
+        if (source == null) {
+            return null;
+        }
+        return LocalDate.parse(source, DateTimeFormatter.ISO_LOCAL_DATE);
     }
 
     @Override
-    public LocalDate convertToEntityAttribute(Date date) {
-        return date == null ? null : date.toLocalDate();
+    public void write(JsonWriter writer, LocalDate date) throws IOException {
+        if (date == null) {
+            writer.nullValue();
+        } else {
+            writer.value(DateTimeFormatter.ISO_LOCAL_DATE.format(date));
+        }
+
+    }
+
+    @Override
+    public LocalDate read(JsonReader reader) throws IOException {
+        if (reader.peek() == JsonToken.NULL) {
+            reader.nextNull();
+            return null;
+        }
+        String date = reader.nextString();
+        return StringUtils.isNotBlank(date) ? LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE) : null;
     }
 }

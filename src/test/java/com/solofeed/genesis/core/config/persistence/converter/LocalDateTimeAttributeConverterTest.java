@@ -1,4 +1,4 @@
-package com.solofeed.genesis.core.converter;
+package com.solofeed.genesis.core.config.persistence.converter;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -10,14 +10,14 @@ import java.util.Calendar;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Test {@link LocalDateTimeConverter}
+ * Test {@link LocalDateTimeAttributeConverter}
  */
-public class LocalDateTimeConverterTest {
-    private LocalDateTimeConverter converter;
+public class LocalDateTimeAttributeConverterTest {
+    private LocalDateTimeAttributeConverter converter;
 
     @Before
     public void setUp() throws Exception {
-        converter = new LocalDateTimeConverter();
+        converter = new LocalDateTimeAttributeConverter();
     }
 
     @Test
