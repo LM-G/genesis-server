@@ -10,7 +10,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 
 /**
- * Created by LM-G on 08/12/2017.
+ * JSON converter, using instance of {@link Gson}
  */
 @Component
 @RequiredArgsConstructor
