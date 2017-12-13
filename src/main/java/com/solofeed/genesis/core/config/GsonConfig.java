@@ -28,8 +28,6 @@ public class GsonConfig {
     public GsonConfig(List<TypeAdapter> adapters){
         // Configuration de l'instance gson
         GsonBuilder builder = new GsonBuilder()
-                // example : accessToken
-                .setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
                 // example : { "(5,6)": "a" , ...
                 .enableComplexMapKeySerialization();
 
