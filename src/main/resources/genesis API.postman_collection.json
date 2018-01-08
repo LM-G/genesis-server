@@ -1,14 +1,13 @@
 {
 	"info": {
 		"name": "genesis API",
-		"_postman_id": "b6b0cfd8-1ad3-f818-17a6-403f12e6f213",
+		"_postman_id": "6a9142af-4ad3-0456-107b-cc68f1ed3cfe",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
 			"name": "auth",
-			"description": "",
 			"item": [
 				{
 					"name": "Register",
@@ -37,8 +36,7 @@
 								"auth",
 								"sign-up"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -52,10 +50,10 @@
 								"exec": [
 									"pm.test(\"Should connect\", function () {",
 									"    var loginResponse = pm.response.json();",
-									"    var access_token = loginResponse.access_token;",
-									"    var refresh_token = loginResponse.refresh_token;",
-									"    pm.environment.set(\"access_token\", \"Bearer \" + access_token);",
-									"    pm.environment.set(\"refresh_token\", refresh_token);",
+									"    var accessToken = loginResponse.accessToken;",
+									"    var refreshToken = loginResponse.refreshToken;",
+									"    pm.environment.set(\"accessToken\", \"Bearer \" + accessToken);",
+									"    pm.environment.set(\"refreshToken\", refreshToken);",
 									"});",
 									"",
 									""
@@ -88,8 +86,7 @@
 								"auth",
 								"sign-in"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -125,7 +122,7 @@
 							"raw": "{\r\n \"login\":\"testdude\",\r\n \"password\":\"testdude\"\r\n}"
 						},
 						"url": {
-							"raw": "http://localhost:3200/api/v1/auth/refresh?token={{refresh_token}}",
+							"raw": "http://localhost:3200/api/v1/auth/refresh?token={{refreshToken}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -140,12 +137,11 @@
 							"query": [
 								{
 									"key": "token",
-									"value": "{{refresh_token}}",
+									"value": "{{refreshToken}}",
 									"equals": true
 								}
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				}
@@ -153,12 +149,11 @@
 		},
 		{
 			"name": "user",
-			"description": "",
 			"item": [
 				{
 					"name": "Me",
 					"request": {
-						"method": "POST",
+						"method": "GET",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -166,7 +161,7 @@
 							},
 							{
 								"key": "Authorization",
-								"value": "{{access_token}}"
+								"value": "{{accessToken}}"
 							}
 						],
 						"body": {
@@ -186,8 +181,44 @@
 								"users",
 								"me"
 							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "clock",
+			"description": "",
+			"item": [
+				{
+					"name": "Clock settings",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \"name\":\"testdude\",\r\n \"email\":\"test@test.com\",\r\n \"password\":\"testdude\"\r\n}"
 						},
-						"description": ""
+						"url": {
+							"raw": "http://localhost:3200/api/v1/clock",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3200",
+							"path": [
+								"api",
+								"v1",
+								"clock"
+							]
+						},
+						"description": "Pour le fun"
 					},
 					"response": []
 				}
