@@ -1,9 +1,7 @@
-package com.solofeed.genesis.core.provider;
+package com.solofeed.genesis.core.converter;
 
-import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
-import com.solofeed.genesis.core.converter.JSONConverter;
 import com.solofeed.genesis.core.exception.MarshallerError;
 import com.solofeed.genesis.core.exception.model.TechnicalException;
 import lombok.AllArgsConstructor;
@@ -14,13 +12,10 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import javax.ws.rs.core.MultivaluedHashMap;
-import javax.ws.rs.core.UriInfo;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -29,7 +24,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -43,26 +37,26 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
- * Test {@link MessageBodyProvider}
+ * Test {@link MessageBodyConverter}
  */
 @Ignore // TODO à déplacer dans JSONMapper
 @RunWith(MockitoJUnitRunner.class)
-public class MessageBodyProviderTest {
-    private MessageBodyProvider<TestObject> messageBodyProvider;
+public class MessageBodyConverterTest {
+    private MessageBodyConverter<TestObject> messageBodyConverter;
 
     @Mock
     private JSONConverter jsonConverter;
 
     @Before
     public void setUp() {
-        messageBodyProvider = new MessageBodyProvider<>(jsonConverter);
+        messageBodyConverter = new MessageBodyConverter<>(jsonConverter);
     }
 
     @Test
     public void shouldFindTestObjectWritableAndReadable() {
         // excecution
-        boolean writable = messageBodyProvider.isWriteable(TestObject.class, null, null, null);
-        boolean readable = messageBodyProvider.isReadable(TestObject.class, null, null, null);
+        boolean writable = messageBodyConverter.isWriteable(TestObject.class, null, null, null);
+        boolean readable = messageBodyConverter.isReadable(TestObject.class, null, null, null);
 
         // assertions
         assertThat(writable).isTrue();
@@ -76,7 +70,7 @@ public class MessageBodyProviderTest {
         TestObject testObject = initTestObject();
 
         // excecution
-        messageBodyProvider.writeTo(testObject, TestObject.class, null, null, null, null, stream);
+        messageBodyConverter.writeTo(testObject, TestObject.class, null, null, null, null, stream);
 
         // assertions
         TestObject actualTestObject = new Gson().fromJson(convertToReader(stream), TestObject.class);
@@ -94,7 +88,7 @@ public class MessageBodyProviderTest {
         ByteArrayInputStream inputStream = spy(new ByteArrayInputStream(jsonifiedTestObject.getBytes(StandardCharsets.UTF_8)));
 
         // excecution
-        messageBodyProvider.readFrom(TestObject.class, null, null, null, null, inputStream);
+        messageBodyConverter.readFrom(TestObject.class, null, null, null, null, inputStream);
 
         // assertions
         verify(inputStream).close();
@@ -110,10 +104,10 @@ public class MessageBodyProviderTest {
         Gson mockedGson = mock(Gson.class);
         when(mockedGson.toJson(any(TestObject.class))).thenThrow(new JsonParseException(jsonParseErrorMsg));
         // set the mocked Gson instance
-        ReflectionTestUtils.setField(messageBodyProvider, "gson", mockedGson);
+        ReflectionTestUtils.setField(messageBodyConverter, "gson", mockedGson);
 
         // excecution
-        assertThatThrownBy(() -> messageBodyProvider.writeTo(testObject, TestObject.class, null, null, null, null, new ByteArrayOutputStream()))
+        assertThatThrownBy(() -> messageBodyConverter.writeTo(testObject, TestObject.class, null, null, null, null, new ByteArrayOutputStream()))
             // assertions
             .isInstanceOf(TechnicalException.class)
             .hasCauseExactlyInstanceOf(JsonParseException.class)
@@ -135,10 +129,10 @@ public class MessageBodyProviderTest {
         when(mockedGson.fromJson(any(InputStreamReader.class), eq(TestObject.class))).thenThrow(new JsonParseException(jsonParseErrorMsg));
 
         // set the mocked Gson instance
-        ReflectionTestUtils.setField(messageBodyProvider, "gson", mockedGson);
+        ReflectionTestUtils.setField(messageBodyConverter, "gson", mockedGson);
 
         // excecution
-        assertThatThrownBy(() -> messageBodyProvider.readFrom(TestObject.class, null, null, null, null, inputStream))
+        assertThatThrownBy(() -> messageBodyConverter.readFrom(TestObject.class, null, null, null, null, inputStream))
             // assertions
             .isInstanceOf(TechnicalException.class)
             .hasCauseExactlyInstanceOf(JsonParseException.class)

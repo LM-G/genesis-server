@@ -1,4 +1,4 @@
-package com.solofeed.genesis.core.provider;
+package com.solofeed.genesis.core.converter;
 
 import com.solofeed.genesis.core.converter.JSONConverter;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,7 @@ import java.lang.reflect.Type;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @RequiredArgsConstructor(onConstructor = @__(@Inject))
-public class MessageBodyProvider<T> implements MessageBodyReader<T>, MessageBodyWriter<T> {
+public class MessageBodyConverter<T> implements MessageBodyReader<T>, MessageBodyWriter<T> {
 
     /** Mapper JSON de serialisation / deserialisation */
     private final JSONConverter jsonConverter;

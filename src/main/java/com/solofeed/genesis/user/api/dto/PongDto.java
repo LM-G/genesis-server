@@ -1,5 +1,7 @@
 package com.solofeed.genesis.user.api.dto;
 
-public class PongDto {
+import lombok.Data;
 
+@Data
+public class PongDto {
 }

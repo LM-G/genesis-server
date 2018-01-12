@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.messaging.converter.DefaultContentTypeResolver;
 import org.springframework.messaging.converter.MessageConverter;
+import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.socket.config.annotation.AbstractWebSocketMessageBrokerConfigurer;
@@ -33,15 +34,8 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/api-ws/v1/")
             .setAllowedOrigins("*")
-            .setHandshakeHandler(handshakeHandler())
             .addInterceptors(authenticationHandshakeInterceptor())
             .withSockJS();
-    }
-
-    @Override
-    public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.setApplicationDestinationPrefixes("/app");
-        registry.enableSimpleBroker("/queue");
     }
 
     @Override
@@ -53,10 +47,5 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
     @Bean
     public AuthenticationHandshakeInterceptor authenticationHandshakeInterceptor(){
         return new AuthenticationHandshakeInterceptor();
-    }
-
-    @Bean
-    public DefaultHandshakeHandler handshakeHandler() {
-        return new DefaultHandshakeHandler(new TomcatRequestUpgradeStrategy());
     }
 }
