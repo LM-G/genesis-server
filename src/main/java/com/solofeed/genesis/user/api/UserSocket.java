@@ -15,9 +15,9 @@ import org.springframework.stereotype.Controller;
 public class UserSocket {
 
     @MessageMapping("/ping")
-    @SendTo("/pong")
+    @SendTo("/queue/pong")
     public PongDto ping(String message) {
-        LOGGER.debug("From \"/ping\" to \"/pong\"" + message);
+        LOGGER.debug("From \"/ping\" to \"/pong\" : " + message);
         return new PongDto();
     }
 }
