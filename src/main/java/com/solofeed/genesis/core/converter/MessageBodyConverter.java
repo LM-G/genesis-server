@@ -1,6 +1,5 @@
 package com.solofeed.genesis.core.converter;
 
-import com.solofeed.genesis.core.converter.JSONConverter;
 import lombok.RequiredArgsConstructor;
 
 import javax.inject.Inject;
@@ -19,6 +18,7 @@ import java.lang.reflect.Type;
 
 /**
  * Marshal and Unmarshal handler between POJO and JSON using Gson
+ *
  * @param <T> generic type
  */
 @Provider
@@ -27,7 +27,9 @@ import java.lang.reflect.Type;
 @RequiredArgsConstructor(onConstructor = @__(@Inject))
 public class MessageBodyConverter<T> implements MessageBodyReader<T>, MessageBodyWriter<T> {
 
-    /** Mapper JSON de serialisation / deserialisation */
+    /**
+     * Mapper JSON de serialisation / deserialisation
+     */
     private final JSONConverter jsonConverter;
 
     @Override

@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import java.util.List;
 
 /**
- * Created by LM-G on 08/12/2017.
+ * Gson module configuration
  */
 @Configuration
 public class GsonConfig {

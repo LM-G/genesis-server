@@ -25,14 +25,14 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/api-ws/v1/")
-                .setAllowedOrigins("*")
-                .addInterceptors(authenticationHandshakeInterceptor());
+        registry.addEndpoint("/api-ws/")
+                .addInterceptors(authenticationHandshakeInterceptor())
+                .setAllowedOrigins("*");
     }
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.enableSimpleBroker("/queue/");
+        registry.enableSimpleBroker("/queue");
     }
 
     @Override

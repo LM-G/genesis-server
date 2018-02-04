@@ -16,15 +16,17 @@ import java.nio.charset.StandardCharsets;
 @RequiredArgsConstructor
 public class JSONConverter {
 
-    /** gson object mapper defined in {@link com.solofeed.genesis.core.config.GsonConfig} */
+    /**
+     * gson object mapper defined in {@link com.solofeed.genesis.core.config.GsonConfig}
+     */
     private final Gson gson;
 
     /**
      * Unmarshal an {@link InputStream} containing bytes reprensentating a json to the wanted DTO
      *
      * @param entityStream entity stream containing the json representation
-     * @param targetClass DTO to create
-     * @param <T> class of wanted DTO
+     * @param targetClass  DTO to create
+     * @param <T>          class of wanted DTO
      * @return DTO representation of a json object
      * @throws IOException if the input stream can't be used by {@link InputStreamReader}
      */
@@ -41,7 +43,7 @@ public class JSONConverter {
      *
      * @param sourceObject DTO to marshal into json object
      * @param entityStream entity stream which will contain the json representation
-     * @param <T> class of the DTO
+     * @param <T>          class of the DTO
      */
     public <T> void toJson(T sourceObject, OutputStream entityStream) {
         try (PrintWriter printWriter = new PrintWriter(entityStream)) {

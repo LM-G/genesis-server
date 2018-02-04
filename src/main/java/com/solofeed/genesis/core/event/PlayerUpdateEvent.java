@@ -9,8 +9,12 @@ import java.time.LocalDateTime;
  */
 @Data
 public class PlayerUpdateEvent {
-    /** Player to update */
+    /**
+     * Player to update
+     */
     private Long playerId;
-    /** Date of event creation */
+    /**
+     * Date of event creation
+     */
     private LocalDateTime date;
 }

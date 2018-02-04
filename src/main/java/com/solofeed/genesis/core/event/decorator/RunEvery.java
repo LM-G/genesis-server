@@ -15,15 +15,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class RunEvery {
 
-    @Pointcut(value="execution(public * com.solofeed.genesis..*(..))")
+    @Pointcut(value = "execution(public * com.solofeed.genesis..*(..))")
     public void anyPublicMethod() {
     }
 
     @Around("anyPublicMethod() && @annotation(eventListener) && @annotation(every) && args(event)")
     public void test(
-        ProceedingJoinPoint joinPoint, EventListener eventListener, Every every, @NonNull UpdateEvent event)
-        throws Throwable {
-        if(event.getTick() % every.value() == 0){
+            ProceedingJoinPoint joinPoint, EventListener eventListener, Every every, @NonNull UpdateEvent event)
+            throws Throwable {
+        if (event.getTick() % every.value() == 0) {
             joinPoint.proceed();
         }
     }

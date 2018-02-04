@@ -12,11 +12,15 @@ import static com.solofeed.genesis.core.config.JerseyConfig.APPLICATION_PATH;
 
 @Configuration
 @ApplicationPath(APPLICATION_PATH)
-public class JerseyConfig extends ResourceConfig{
-    /** Application base path */
+public class JerseyConfig extends ResourceConfig {
+    /**
+     * Application base path
+     */
     static final String APPLICATION_PATH = "api/v1";
-    /** Endpoints location */
-    private static final  String ENDPOINTS = "com.solofeed.genesis";
+    /**
+     * Endpoints location
+     */
+    private static final String ENDPOINTS = "com.solofeed.genesis";
 
     public JerseyConfig() {
         // register endpoints
@@ -29,7 +33,7 @@ public class JerseyConfig extends ResourceConfig{
     }
 
     @Bean
-    public AppState appState(){
+    public AppState appState() {
         return new AppState();
     }
 }
